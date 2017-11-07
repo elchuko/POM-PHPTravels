@@ -59,8 +59,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Login.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="HomePage.cs" />
+    <Compile Include="LoginPage.cs" />
+    <Compile Include="LoginTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
