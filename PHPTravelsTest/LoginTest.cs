@@ -18,8 +18,8 @@ namespace PHPTravelsTest
         {
            // driver = new FirefoxDriver(new FirefoxOptions()); //factory for chosing which browser is needed
             driver = new ChromeDriver(new ChromeOptions());
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
-
         }
 
 
@@ -31,18 +31,19 @@ namespace PHPTravelsTest
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);
-            HomePage homePage = new HomePage(driver);
+            DashBoard dashBoard = new DashBoard(driver);
+            System.Threading.Thread.Sleep(3000);
 
-            try
-            {
-                homePage.VerifyWeAreHome();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            
+            //try
+            //{
+            //    dashBoard.VerifyWeAreDashBoard();
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw;
+            //}
+
 
 
         }

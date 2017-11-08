@@ -58,8 +58,11 @@ namespace PHPTravelsTest
 
         public void FillLogin(string username, string password)
         {
+            
             SendUsername(username);
+            System.Threading.Thread.Sleep(3000);
             SendPassword(password);
+            System.Threading.Thread.Sleep(3000);
             ClickButton();
         //return PageFactory.GetPage();
         }

@@ -8,18 +8,18 @@ using OpenQA.Selenium.Chrome;
 
 namespace PHPTravelsTest
 {
-    class HomePage: BasicPage
+    class DashBoard: BasicPage
     {
         private IWebDriver driver;
         private string CurrentURL = null;
         private string URL = "jdfkaldfa";//this should not be hardcoded
 
-        public HomePage(IWebDriver driver) : base(driver)
+        public DashBoard(IWebDriver driver) : base(driver)
         {
             this.driver = driver;
         }
        
-        public bool VerifyWeAreHome()
+        public bool VerifyWeAreDashBoard()
         {
             CurrentURL = driver.Url;
             if (CurrentURL.Equals(URL))
