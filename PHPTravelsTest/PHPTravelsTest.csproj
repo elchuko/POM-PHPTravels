@@ -64,6 +64,7 @@
     <Compile Include="DashBoard.cs" />
     <Compile Include="LoginPage.cs" />
     <Compile Include="LoginTest.cs" />
+    <Compile Include="MyProfilePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
