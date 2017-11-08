@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace PHPTravelsTest
+namespace PHPTravelsTest.Factory
 {
-    class Login
+    public abstract class AbsPageFactory
     {
-
+        public abstract BasicPage GetPage(string pageType);
     }
 }
