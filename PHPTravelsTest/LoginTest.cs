@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 
 
 namespace PHPTravelsTest
@@ -10,23 +11,38 @@ namespace PHPTravelsTest
     [TestClass]
     public class LoginTest
     {
-        private ChromeDriver driver;
+        private IWebDriver driver;
 
         [SetUp]
         public void SetUp()
         {
-            driver = new ChromeDriver(new ChromeOptions()); //factory for chosing which driver is needed
-            
+           // driver = new FirefoxDriver(new FirefoxOptions()); //factory for chosing which browser is needed
+            driver = new ChromeDriver(new ChromeOptions());
+            driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
+
         }
 
 
         [Test]
         public void LoginFirstTime()
         {
+            string username = "admin@phptravels.com";
+            string password = "demoadmin";
 
             LoginPage loginPage = new LoginPage(driver);
-            HomePage homePage = loginPage.fillLogin();
-            homePage.
+            loginPage.FillLogin(username, password);
+            HomePage homePage = new HomePage(driver);
+
+            try
+            {
+                homePage.VerifyWeAreHome();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
 
 
         }
