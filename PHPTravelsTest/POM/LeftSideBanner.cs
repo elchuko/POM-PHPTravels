@@ -18,9 +18,12 @@ namespace PHPTravelsTest
     public class LeftSideBanner: BasicPage
     {
         private IWebDriver driver;
+        private WebDriverWait wait;
+        //constructor
         public LeftSideBanner(IWebDriver driver) : base(driver)
         {
             this.driver = driver;
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
         }
 
         [FindsBy(How = How.XPath, Using = "//*[@id='social-sidebar-menu']/li[6]/a")]
@@ -32,13 +35,12 @@ namespace PHPTravelsTest
         [FindsBy(How = How.XPath, Using = "html/body/div[2]/header/nav/div[3]/ul[2]/li[2]/ul/li[1]/a")]
         private IWebElement myProfile;
 
-        
-
         [FindsBy(How = How.XPath, Using = "html/body/div[2]/header/nav/div[3]/ul[2]/li[2]/a/i")]
         private IWebElement myProfileArrow;
 
         public void GoToMyProfile()
         {
+            wait.Until(ExpectedConditions.ElementToBeClickable(myProfileArrow));
             myProfileArrow.Click();
             myProfile.Click();
         }

@@ -15,7 +15,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace PHPTravelsTest
 {
-    class MyProfilePage: BasicPage
+    class MyProfilePage : BasicPage
     {
         private IWebDriver driver;
         public MyProfilePage(IWebDriver driver) : base(driver)
@@ -54,16 +54,13 @@ namespace PHPTravelsTest
         //We verify we are in MyProfilePage
         public bool VerifyWeAreMyProfilePage()
         {
-           return true;
+            return true;
         }
 
-        public int WriteFirstName(string firstName)
+        public void WriteFirstName(string firstName)
         {
-            
-                txtboxFirstName.Clear();
-                txtboxFirstName.SendKeys(firstName);
-            return 1;
-
+            txtboxFirstName.Clear();
+            txtboxFirstName.SendKeys(firstName);
         }
 
         public string GetFirstName(string firstName)
@@ -73,11 +70,11 @@ namespace PHPTravelsTest
 
         public void WriteLastName(string lastName)
         {
-            
-                txtboxLastName.Clear();
-                txtboxLastName.SendKeys(lastName);
-            
-            
+
+            txtboxLastName.Clear();
+            txtboxLastName.SendKeys(lastName);
+
+
         }
 
         public string GetLastName()
@@ -120,7 +117,7 @@ namespace PHPTravelsTest
         }
 
         public void WriteAddress1(string address1)
-        {   
+        {
             txtboxAddress1.Clear();
             txtboxAddress1.SendKeys(address1);
         }
@@ -154,27 +151,29 @@ namespace PHPTravelsTest
 
         public void WriteFieldValues
             (
-            string firstname, 
+            string firstname,
             string lastname,
-            string mail, 
+            string mail,
             string mobile,
-            string country, 
-            string address1, 
+            string country,
+            string address1,
             string address2
             )
         {
-            IsNull(WriteFirstName(firstname));
-            WriteLastName(lastname);
-            WriteMail(mail);
-
- 
+            if (firstname != null) WriteFirstName(firstname);
+            if (lastname != null) WriteLastName(lastname);
+            if (mail != null) WriteMail(mail);
+            if (mobile != null) WriteMail(mobile);
+            if (country != null) WriteMail(country);
+            if (address1 != null) WriteMail(address1);
+            if (address2 != null) WriteMail(address2);
         }
 
-        public void IsNull(Func<string,int> mymethod)
-        {
-            
+        //public void IsNull(Func<string,int> mymethod)
+        //{
 
-                
-        }
+
+
+        //}
     }
 }
