@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using PHPTravelsTest.POM;
 using System.Threading;
+using PHPTravelsTest.WebFactoryMethod;
 
 namespace PHPTravelsTest
 {
@@ -18,7 +19,8 @@ namespace PHPTravelsTest
         [TestInitialize]
         public void SetUp()
         {
-            driver = new ChromeDriver(new ChromeOptions());
+            WebFactory webFactory = new WebFactory();
+            driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("http://www.phptravels.net/admin/coupons");
