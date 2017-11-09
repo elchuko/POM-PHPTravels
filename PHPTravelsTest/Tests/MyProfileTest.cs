@@ -31,7 +31,6 @@ namespace PHPTravelsTest
         public void SetUp()
         {
             WebFactory webFactory = new WebFactory();
-            // driver = new FirefoxDriver(new FirefoxOptions()); //factory for chosing which browser is needed
             driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
             driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
             driver.Manage().Window.Maximize();
