@@ -71,7 +71,7 @@
     <Compile Include="WebFactoryMethod\AbsWebFactory.cs" />
     <Compile Include="WebFactoryMethod\WebFactory.cs" />
     <Compile Include="POM\Coupons.cs" />
-    <Compile Include="CouponsTest.cs" />
+    <Compile Include="Tests\CouponsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
