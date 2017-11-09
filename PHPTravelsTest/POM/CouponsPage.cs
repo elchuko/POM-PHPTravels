@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace PHPTravelsTest.POM
 {
-    class Coupons : BasicPage
+    class CouponsPage : BasicPage
     {
 
         //Initialize WebDriver(s)
@@ -16,64 +16,61 @@ namespace PHPTravelsTest.POM
 
         //Initialize xpaths variables
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[1]/button")]
-        public IWebElement AddButton;
+        private IWebElement AddButton;
 
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[1]")]
-        public IWebElement EditButton;
+        private IWebElement EditButton;
 
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[2]/i")]
-        public IWebElement SearchButton;
+        private IWebElement SearchButton;
 
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[3]/i")]
-        public IWebElement DeleteButton;
+        private IWebElement DeleteButton;
 
         [FindsBy(How = How.Id, Using = "rate")]
-        public IWebElement percentageField;
+        private IWebElement percentageField;
 
         [FindsBy(How = How.XPath, Using = "//*[@id='add']")]
-        public IWebElement GenerateButton;
+        private IWebElement GenerateButton;
 
         [FindsBy(How = How.XPath, Using = "//*[@class='btn btn-primary submitcoupon']")]
-        public IWebElement SubmitButton;
+        private IWebElement SubmitButton;
 
         [FindsBy(How = How.XPath, Using ="//*[@id='max']")]
-        public IWebElement MaxUses;
+        private IWebElement MaxUsesField;
 
         [FindsBy(How = How.XPath, Using = "//*[@id='11']")]
-        public IWebElement UpdateButton;
+        private IWebElement UpdateButton;
 
-        public Coupons goToPage(string path)
+        //Coupons Page constructor
+        public CouponsPage(IWebDriver driver): base(driver)
         {
-            driver.Navigate().GoToUrl(path);
-            return new Coupons(driver);
-        }
-        public Coupons(IWebDriver driver): base(driver)
-        {
-            this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             //PageFactory.InitElements(driver, this)
         }
-
-        public void WaitforCouponsPage()
+         
+        //Starting methods for coupons actions.
+        private void WaitforCouponsPage()
         {
             wait.Until(ExpectedConditions.ElementToBeClickable(AddButton));
         }
 
-        public void ClickAddButton()
+        private void ClickAddButton()
         {
+            wait.Until(ExpectedConditions.ElementToBeClickable(AddButton));
             AddButton.Click();
         }
 
-        public void TypePercentageValue(string percentage)
+        private void TypePercentageValue(string percentage)
         {
             percentageField.SendKeys(percentage);
         }
-        public void SubmitCoupon()
+        private void SubmitCoupon()
         {
             wait.Until(ExpectedConditions.ElementToBeClickable(SubmitButton));
             SubmitButton.Click();
         }
-        public void FillCoupon(string percentage)
+        private void FillCoupon(string percentage)
         {
             TypePercentageValue(percentage);
             wait.Until(ExpectedConditions.ElementToBeClickable(GenerateButton));
@@ -81,25 +78,46 @@ namespace PHPTravelsTest.POM
             Thread.Sleep(1000);
         }
 
-        public void ClickDeleteButton()
+        private void ClickDeleteButton()
         {
             DeleteButton.Click();
         }
 
-        public void ConfirmDeleteCoupon()
+        private void ConfirmDeleteCoupon()
         {
             IAlert alert = driver.SwitchTo().Alert();
             alert.Accept();
             driver.SwitchTo().DefaultContent();
         }
 
-       /* public void VerifyCouponRemoved(string percentage)
+        private void ClickUpdateButton()
         {
-            //pendingCode
+            wait.Until(ExpectedConditions.ElementToBeClickable(UpdateButton));
+            UpdateButton.Click();
+        }
+
+        private void TypeMaxUsesVal(string MaxUses)
+        {
+            wait.Until(ExpectedConditions.ElementToBeSelected(MaxUsesField));
+            MaxUsesField.SendKeys(MaxUses);
+        }
+
+        private void ClickEditCoupon()
+        {
+            wait.Until(ExpectedConditions.ElementToBeClickable(EditButton));
+            EditButton.Click();
+        }
+
+        //Starting methods for coupons actions
+        /*public CouponsPage goToPage(string path)
+        {
+            driver.Navigate().GoToUrl(path);
+            return new CouponsPage(driver);
         }*/
 
         public void AddCoupon(string percentage)
         {
+            WaitforCouponsPage();
             ClickAddButton();
             FillCoupon(percentage);
             SubmitCoupon();
@@ -107,8 +125,17 @@ namespace PHPTravelsTest.POM
 
         public void DeleteCoupon()
         {
+            WaitforCouponsPage();
             ClickDeleteButton();
             ConfirmDeleteCoupon();
+        }
+
+        public void EditCoupon(string MaxUses)
+        {
+            WaitforCouponsPage();
+            ClickEditCoupon();
+            TypeMaxUsesVal(MaxUses);
+            ClickUpdateButton();
         }
     }
 }
