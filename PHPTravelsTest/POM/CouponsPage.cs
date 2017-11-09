@@ -36,9 +36,9 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//*[@class='btn btn-primary submitcoupon']")]
         private IWebElement SubmitButton;
 
-        [FindsBy(How = How.XPath, Using ="//*[@id='max']")]
+        [FindsBy(How = How.CssSelector, Using = "html body.pace-done.modal-open div.wrapper div.main div#content.container div#editCop11.modal.fade.in div.modal-dialog.modal-lg div.modal-content div.modal-body form#editcoupon11.form-horizontal div div div.panel-body div.spacer20px div.col-lg-5 div.well div.form-group div.col-md-6 input#max.form-control")]
         private IWebElement MaxUsesField;
-
+        
         [FindsBy(How = How.XPath, Using = "//*[@id='11']")]
         private IWebElement UpdateButton;
 
@@ -134,6 +134,7 @@ namespace PHPTravelsTest.POM
         {
             WaitforCouponsPage();
             ClickEditCoupon();
+            IWebElement startdate = driver.FindElement(By.XPath("//*[@id='stardate']"));
             TypeMaxUsesVal(MaxUses);
             ClickUpdateButton();
         }
