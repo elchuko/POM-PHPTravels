@@ -35,11 +35,26 @@ namespace PHPTravelsTest
              LoginPage loginPage = new LoginPage(driver);
              loginPage.FillLogin(username, password);
 
-            Coupons coupons = new Coupons(driver);
+             Coupons coupons = new Coupons(driver);
              coupons.WaitforCouponsPage();
              coupons.AddCoupon(percentage);
              Thread.Sleep(1000);
          }
+
+        [TestMethod]
+        public void DeletetheFirstCouponAvailable()
+        {
+            string username = "admin@phptravels.com";
+            string password = "demoadmin";
+
+            LoginPage loginPage = new LoginPage(driver);
+            loginPage.FillLogin(username, password);
+
+            Coupons coupons = new Coupons(driver);
+            coupons.WaitforCouponsPage();
+            coupons.DeleteCoupon();
+            Thread.Sleep(1000);
+        }
 
         [TestCleanup]
         public void CleanUp()

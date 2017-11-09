@@ -36,6 +36,12 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//*[@class='btn btn-primary submitcoupon']")]
         public IWebElement SubmitButton;
 
+        [FindsBy(How = How.XPath, Using ="//*[@id='max']")]
+        public IWebElement MaxUses;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='11']")]
+        public IWebElement UpdateButton;
+
         public Coupons goToPage(string path)
         {
             driver.Navigate().GoToUrl(path);
@@ -87,10 +93,10 @@ namespace PHPTravelsTest.POM
             driver.SwitchTo().DefaultContent();
         }
 
-        public void VerifyCouponRemoved(string percentage)
+       /* public void VerifyCouponRemoved(string percentage)
         {
             //pendingCode
-        }
+        }*/
 
         public void AddCoupon(string percentage)
         {
@@ -99,11 +105,10 @@ namespace PHPTravelsTest.POM
             SubmitCoupon();
         }
 
-        private void DeleteCoupon(string percentage)
+        public void DeleteCoupon()
         {
             ClickDeleteButton();
             ConfirmDeleteCoupon();
-            //VerifyCouponRemoved(percentage);
         }
     }
 }
