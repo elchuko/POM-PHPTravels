@@ -21,7 +21,7 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[1]")]
         private IWebElement EditButton;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[2]/i")]
+        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/a")]
         private IWebElement SearchButton;
 
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[3]/i")]
@@ -36,11 +36,17 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//*[@class='btn btn-primary submitcoupon']")]
         private IWebElement SubmitButton;
 
-        [FindsBy(How = How.XPath, Using ="//*[@id='max']")]
+        [FindsBy(How = How.XPath, Using = "//form[@id='editcoupon11']/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/input[@id='max']")]
         private IWebElement MaxUsesField;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='11']")]
+        [FindsBy(How = How.XPath, Using = "//div[@class='modal-footer']/button[@id='10']")]
         private IWebElement UpdateButton;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/input")]
+        private IWebElement SearchField;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/span/a")]
+        private IWebElement GoButton;
 
         //Coupons Page constructor
         public CouponsPage(IWebDriver driver): base(driver)
@@ -108,6 +114,23 @@ namespace PHPTravelsTest.POM
             EditButton.Click();
         }
 
+        private void ClickSearchButton()
+        {
+            wait.Until(ExpectedConditions.ElementToBeClickable(SearchButton));
+            SearchButton.Click();
+        }
+
+        private void TypeSearchValue(string Value)
+        {
+            wait.Until(ExpectedConditions.ElementToBeClickable(SearchField));
+            SearchField.SendKeys(Value);
+        }
+
+        private void ClickGoButton()
+        {
+            wait.Until(ExpectedConditions.ElementToBeClickable(GoButton));
+            GoButton.Click();
+        }
         //Starting methods for coupons actions
         /*public CouponsPage goToPage(string path)
         {
@@ -136,6 +159,14 @@ namespace PHPTravelsTest.POM
             ClickEditCoupon();
             TypeMaxUsesVal(MaxUses);
             ClickUpdateButton();
+        }
+
+        public void SearchCoupon(string Value)
+        {
+            WaitforCouponsPage();
+            ClickSearchButton();
+            TypeSearchValue(Value);
+            ClickGoButton();
         }
     }
 }

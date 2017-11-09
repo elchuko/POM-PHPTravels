@@ -38,7 +38,7 @@ namespace PHPTravelsTest
         [FindsBy(How = How.XPath, Using = "html/body/div[2]/header/nav/div[3]/ul[2]/li[2]/a/i")]
         private IWebElement myProfileArrow;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='social - sidebar - menu']/li[12]/a/i")]
+        [FindsBy(How = How.XPath, Using = "//*[@id='social-sidebar-menu']/li[12]/a/i")]
         private IWebElement CouponsPage;
 
         public void GoToMyProfile()
