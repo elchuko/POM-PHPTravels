@@ -18,15 +18,22 @@ namespace PHPTravelsTest
         {
             this.driver = driver;
         }
-       
-        public bool VerifyWeAreDashBoard()
+
+        public void goMyProfile()
         {
-            CurrentURL = driver.Url;
-            if (CurrentURL.Equals(URL))
-            {
-                return true;
-            }
-            else return false;
+            LeftSideBanner banner = new LeftSideBanner(driver);
+            banner.GoToMyProfile();
+            System.Threading.Thread.Sleep(3000);
         }
+
+        //public bool VerifyWeAreDashBoard()
+        //{
+        //    CurrentURL = driver.Url;
+        //    if (CurrentURL.Equals(URL))
+        //    {
+        //        return true;
+        //    }
+        //    else return false;
+        //}
     }
 }
