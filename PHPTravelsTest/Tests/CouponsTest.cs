@@ -21,7 +21,6 @@ namespace PHPTravelsTest
         {
             WebFactory webFactory = new WebFactory();
             driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("http://www.phptravels.net/admin/coupons");
         }
@@ -37,8 +36,7 @@ namespace PHPTravelsTest
              LoginPage loginPage = new LoginPage(driver);
              loginPage.FillLogin(username, password);
 
-             Coupons coupons = new Coupons(driver);
-             coupons.WaitforCouponsPage();
+             CouponsPage coupons = new CouponsPage(driver);
              coupons.AddCoupon(percentage);
              Thread.Sleep(1000);
          }
@@ -52,9 +50,26 @@ namespace PHPTravelsTest
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);
 
-            Coupons coupons = new Coupons(driver);
-            coupons.WaitforCouponsPage();
+            CouponsPage coupons = new CouponsPage(driver);
             coupons.DeleteCoupon();
+            Thread.Sleep(1000);
+        }
+
+        [TestMethod]
+        public void UpdateMaxUsesField()
+        {
+            string username = "admin@phptravels.com";
+            string password = "demoadmin";
+            string MaxUses = "20";
+
+            LoginPage loginPage = new LoginPage(driver);
+            loginPage.FillLogin(username, password);
+
+            //DashBoard dashboard = new DashBoard(driver);
+            //dashboard.goToCouponsPage();
+
+            CouponsPage coupons = new CouponsPage(driver);
+            coupons.EditCoupon(MaxUses);
             Thread.Sleep(1000);
         }
 

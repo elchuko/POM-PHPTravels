@@ -5,14 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System.Threading;
+using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Support.PageObjects;
 
 namespace PHPTravelsTest
 {
     class DashBoard: BasicPage
     {
         private IWebDriver driver;
-        private string CurrentURL = null;
-        private string URL = "jdfkaldfa";//this should not be hardcoded
+        //private string CurrentURL = null;
+        //private string URL = "jdfkaldfa";//this should not be hardcoded
 
         public DashBoard(IWebDriver driver) : base(driver)
         {
@@ -24,6 +27,13 @@ namespace PHPTravelsTest
             LeftSideBanner banner = new LeftSideBanner(driver);
             banner.GoToMyProfile();
             System.Threading.Thread.Sleep(3000);
+        }
+
+        public void goToCouponsPage()
+        {
+            LeftSideBanner banner = new LeftSideBanner(driver);
+            banner.GoToCouponsPage();
+            Thread.Sleep(3000);
         }
 
         //public bool VerifyWeAreDashBoard()
