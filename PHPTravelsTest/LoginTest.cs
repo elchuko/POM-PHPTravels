@@ -4,7 +4,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
-
+using PHPTravelsTest.POM;
+using System.Threading;
 
 namespace PHPTravelsTest
 {
@@ -19,6 +20,7 @@ namespace PHPTravelsTest
            // driver = new FirefoxDriver(new FirefoxOptions()); //factory for chosing which browser is needed
             driver = new ChromeDriver(new ChromeOptions());
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
         }
 
@@ -52,6 +54,7 @@ namespace PHPTravelsTest
         public void CleanUp()
         {
             driver.Close();
+            driver.Quit();
         }
     }
 }

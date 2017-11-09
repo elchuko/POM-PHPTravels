@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace PHPTravelsTest.POM
 {
-    class Coupons
+    class Coupons : BasicPage
     {
 
-        //Initialize xpaths variables
+        //Initialize WebDriver(s)
         public IWebDriver driver;
+        private WebDriverWait wait;
 
+        //Initialize xpaths variables
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[1]/button")]
         public IWebElement AddButton;
-       
+
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[1]")]
         public IWebElement EditButton;
 
@@ -28,75 +27,83 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[3]/i")]
         public IWebElement DeleteButton;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='#, @name='status']")]
-        public IWebElement StatusField;
-
-        [FindsBy(How = How.XPath, Using = "//*[@id='rate']")]
+        [FindsBy(How = How.Id, Using = "rate")]
         public IWebElement percentageField;
-
-        [FindsBy(How = How.XPath, Using = "//*[@id='max']")]
-        public IWebElement MaxUsesField;
-
-        [FindsBy(How = How.XPath, Using = "//*[@id='stardate']")]
-        public IWebElement StartDateField;
-
-        [FindsBy(How = How.XPath, Using = "//*[@id='expdate']")]
-        public IWebElement ExpDateField;
-
-        [FindsBy(How = How.XPath, Using = "//*[@id='addcoupon']/div[2]/div[1]/div[2]/div/div[1]/ins")]
-        public IWebElement AssGloCheckbox;
 
         [FindsBy(How = How.XPath, Using = "//*[@id='add']")]
         public IWebElement GenerateButton;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='s2id_autogen1']/ul")]
-        public IWebElement AssHotelButton;
-
-        [FindsBy(How = How.XPath, Using = "//*[@id='s2id_autogen3']/ul")]
-        public IWebElement AssTourButton;
-
-        [FindsBy(How = How.XPath, Using = "//*[@id='s2id_autogen5']/ul")]
-        public IWebElement AssCarButton;
-
-        [FindsBy(How = How.XPath, Using = "//*[@id='#'and @Type = 'button']")]
+        [FindsBy(How = How.XPath, Using = "//*[@class='btn btn-primary submitcoupon']")]
         public IWebElement SubmitButton;
+
+        public Coupons goToPage(string path)
+        {
+            driver.Navigate().GoToUrl(path);
+            return new Coupons(driver);
+        }
+        public Coupons(IWebDriver driver): base(driver)
+        {
+            this.driver = driver;
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //PageFactory.InitElements(driver, this)
+        }
+
+        public void WaitforCouponsPage()
+        {
+            wait.Until(ExpectedConditions.ElementToBeClickable(AddButton));
+        }
 
         public void ClickAddButton()
         {
             AddButton.Click();
         }
 
-        public void SelectStatusValue(string statusVal)
+        public void TypePercentageValue(string percentage)
         {
-            var Select_status = new SelectElement(StatusField);
-            Select_status.SelectByText(statusVal);
+            percentageField.SendKeys(percentage);
         }
-        public void FillCoupon(string status)
+        public void SubmitCoupon()
         {
-
-            SelectStatusValue(status);
-            percentageField.SendKeys("30");
-            MaxUsesField.SendKeys("50");
-            StartDateField.SendKeys("07/11/2017");
-            StartDateField.Click();
-            ExpDateField.SendKeys("07/12/2017");
-            ExpDateField.Click();
-            AssGloCheckbox.Click();
-            GenerateButton.Click();
-        }
-
-        public void AddCouppon(string status, string percentage, string MaxUses, string StartDate, string ExpDate)
-        {
-            ClickAddButton();
-            FillCoupon(status);
+            wait.Until(ExpectedConditions.ElementToBeClickable(SubmitButton));
             SubmitButton.Click();
         }
-
-        
-
-        private void EditCouppon()
+        public void FillCoupon(string percentage)
         {
+            TypePercentageValue(percentage);
+            wait.Until(ExpectedConditions.ElementToBeClickable(GenerateButton));
+            GenerateButton.Click();
+            Thread.Sleep(1000);
+        }
 
+        public void ClickDeleteButton()
+        {
+            DeleteButton.Click();
+        }
+
+        public void ConfirmDeleteCoupon()
+        {
+            IAlert alert = driver.SwitchTo().Alert();
+            alert.Accept();
+            driver.SwitchTo().DefaultContent();
+        }
+
+        public void VerifyCouponRemoved(string percentage)
+        {
+            //pendingCode
+        }
+
+        public void AddCoupon(string percentage)
+        {
+            ClickAddButton();
+            FillCoupon(percentage);
+            SubmitCoupon();
+        }
+
+        private void DeleteCoupon(string percentage)
+        {
+            ClickDeleteButton();
+            ConfirmDeleteCoupon();
+            //VerifyCouponRemoved(percentage);
         }
     }
 }

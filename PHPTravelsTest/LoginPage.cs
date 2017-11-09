@@ -9,13 +9,12 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.Extensions;
-using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
-
+using PHPTravelsTest.POM;
 
 namespace PHPTravelsTest
 {
-    class LoginPage: BasicPage
+    class LoginPage : BasicPage
     {
         //private string username;
         //private string password;
@@ -28,7 +27,6 @@ namespace PHPTravelsTest
         }
 
 
-
         [FindsBy(How = How.XPath, Using = "html/body/div[2]/div[2]/form[1]/div[1]/input[1]")]
         private IWebElement txtboxUsername;
 
@@ -38,8 +36,6 @@ namespace PHPTravelsTest
         [FindsBy(How = How.XPath, Using = "html/body/div[2]/div[2]/form[1]/button")]
         private IWebElement loginButton;
 
-        
-        
 
         public void SendUsername(string username)
         {
@@ -66,5 +62,6 @@ namespace PHPTravelsTest
             ClickButton();
         //return PageFactory.GetPage();
         }
+
     }
 }
