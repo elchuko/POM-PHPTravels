@@ -23,6 +23,7 @@ namespace PHPTravelsTest
         {
             LeftSideBanner banner = new LeftSideBanner(driver);
             banner.GoToMyProfile();
+            System.Threading.Thread.Sleep(3000);
         }
 
         //public bool VerifyWeAreDashBoard()

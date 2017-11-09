@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework.Constraints;
+using NUnit.Framework.Internal;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
@@ -56,9 +57,12 @@ namespace PHPTravelsTest
            return true;
         }
 
-        public void WriteFirstName(string firstName)
+        public int WriteFirstName(string firstName)
         {
-            txtboxFirstName.SendKeys(firstName);
+            
+                txtboxFirstName.Clear();
+                txtboxFirstName.SendKeys(firstName);
+            return 1;
 
         }
 
@@ -69,7 +73,11 @@ namespace PHPTravelsTest
 
         public void WriteLastName(string lastName)
         {
-            txtboxLastName.SendKeys(lastName);
+            
+                txtboxLastName.Clear();
+                txtboxLastName.SendKeys(lastName);
+            
+            
         }
 
         public string GetLastName()
@@ -79,6 +87,8 @@ namespace PHPTravelsTest
 
         public void WriteMail(string mail)
         {
+
+            txtboxEmail.Clear();
             txtboxEmail.SendKeys(mail);
         }
 
@@ -89,6 +99,7 @@ namespace PHPTravelsTest
 
         public void WriteMobileNumber(string mobileNumber)
         {
+            txtboxMobile.Clear();
             txtboxMobile.SendKeys(mobileNumber);
         }
 
@@ -99,6 +110,7 @@ namespace PHPTravelsTest
 
         public void WriteCountry(string country)
         {
+
             dropdownCountry.SendKeys(country);
         }
 
@@ -108,7 +120,8 @@ namespace PHPTravelsTest
         }
 
         public void WriteAddress1(string address1)
-        {
+        {   
+            txtboxAddress1.Clear();
             txtboxAddress1.SendKeys(address1);
         }
 
@@ -119,6 +132,7 @@ namespace PHPTravelsTest
 
         public void WriteAddress2(string address2)
         {
+            txtboxAddress2.Clear();
             txtboxAddress2.SendKeys(address2);
         }
 
@@ -136,6 +150,31 @@ namespace PHPTravelsTest
         {
             WriteFirstName(name);
             clickSubmitButton();
+        }
+
+        public void WriteFieldValues
+            (
+            string firstname, 
+            string lastname,
+            string mail, 
+            string mobile,
+            string country, 
+            string address1, 
+            string address2
+            )
+        {
+            IsNull(WriteFirstName(firstname));
+            WriteLastName(lastname);
+            WriteMail(mail);
+
+ 
+        }
+
+        public void IsNull(Func<string,int> mymethod)
+        {
+            
+
+                
         }
     }
 }
