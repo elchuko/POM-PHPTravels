@@ -43,6 +43,7 @@ namespace PHPTravelsTest
 
         public void GoToMyProfile()
         {
+            System.Threading.Thread.Sleep(2000);
             wait.Until(ExpectedConditions.ElementToBeClickable(myProfileArrow));
             myProfileArrow.Click();
             myProfile.Click();

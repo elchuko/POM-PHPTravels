@@ -94,6 +94,7 @@ namespace PHPTravelsTest.POM
 
         private void ConfirmDeleteCoupon()
         {
+            System.Threading.Thread.Sleep(2000);
             IAlert alert = driver.SwitchTo().Alert();
             alert.Accept();
             driver.SwitchTo().DefaultContent();
