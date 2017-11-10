@@ -7,6 +7,7 @@ using OpenQA.Selenium.Support.UI;
 using System.Threading;
 using NUnit.Framework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace PHPTravelsTest.POM
 {
@@ -21,8 +22,8 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[1]/button")]
         private IWebElement AddButton;
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='editCop13']/div[2]/div[1]/div[4]/button[@id=11]")]
-        private IWebElement EditButton;
+       /* [FindsBy(How = How.XPath, Using = "//div[@id='editCop11']/div[2]/div[1]/div[4]/button[@id=11]")]
+        private IWebElement EditButton;*/
 
         [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/a")]
         private IWebElement SearchButton;
@@ -38,9 +39,6 @@ namespace PHPTravelsTest.POM
 
         [FindsBy(How = How.XPath, Using = "//div[@id='ADD_COUPON']/div[2]/div[1]/div[2]/div[3]/button")]
         private IWebElement SubmitButton;
-
-        [FindsBy(How = How.CssSelector, Using = "#editcoupon11 > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > input:nth-child(1)")]
-        private IWebElement MaxUsesField;
 
         [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[1]/i")]
         private IWebElement UpdateButton;
@@ -63,13 +61,17 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[3]")]
         private IWebElement CouponNumber;
 
+        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[1]/div[1]/a[2]")]
+        private IWebElement PrintButton;
+
         //Coupons Page constructor
-        public CouponsPage(IWebDriver driver): base(driver)
+        public CouponsPage(IWebDriver driver) : base(driver)
         {
+            this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             //PageFactory.InitElements(driver, this)
         }
-         
+
         //Starting methods for coupons actions.
         private void WaitforCouponsPage()
         {
@@ -104,16 +106,17 @@ namespace PHPTravelsTest.POM
 
         private void ClickDeleteButton()
         {
+            Thread.Sleep(3000);
+            //wait.Until(ExpectedConditions.ElementToBeClickable(DeleteButton));
             DeleteButton.Click();
         }
 
         private void ConfirmDeleteCoupon()
         {
-            System.Threading.Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.AlertIsPresent());
             IAlert alert = driver.SwitchTo().Alert();
-            driver.SwitchTo().Alert().Accept();
+            alert.Accept();
             driver.SwitchTo().DefaultContent();
-
         }
 
         private void ClickUpdateButton()
@@ -125,7 +128,10 @@ namespace PHPTravelsTest.POM
 
         private void TypeMaxUsesVal(string MaxUses)
         {
-            //driver.SwitchTo().Frame();
+            string number = CouponNumber.Text;
+            string Xpath = "#editcoupon"+number+"> div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > input:nth-child(1)";
+            //[FindsBy(How = How.CssSelector, Using = )]
+            IWebElement MaxUsesField = driver.FindElement(By.CssSelector(Xpath)) ;
             //wait.Until(ExpectedConditions.ElementIsVisible(MaxUsesField));
             System.Threading.Thread.Sleep(3000);
             MaxUsesField.Clear();
@@ -134,9 +140,9 @@ namespace PHPTravelsTest.POM
 
         private void ClickEditCoupon()
         {
-            //string number = CouponNumber.Text;
-            //string Xpath = "//div[@class='modal-footer']/button[@id=" + number+"]";
-            //IWebElement  Update = driver.FindElement(By.XPath(Xpath));
+            string number = CouponNumber.Text;
+            string Xpath = "//div[@id='editCop"+number+"']/div[2]/div[1]/div[4]/button[@id="+number+"]";
+            IWebElement EditButton = driver.FindElement(By.XPath(Xpath));
             wait.Until(ExpectedConditions.ElementToBeClickable(EditButton));
             EditButton.Click();
         }
@@ -150,7 +156,7 @@ namespace PHPTravelsTest.POM
 
         private void TypeSearchValue(string Value)
         {
-           
+
             wait.Until(ExpectedConditions.ElementToBeClickable(SearchField));
             SearchField.SendKeys(Value);
         }
@@ -188,6 +194,19 @@ namespace PHPTravelsTest.POM
             TypeSearchValue(Value);
             ClickGoButton();
         }
+
+        private void ClickPrintButton()
+        {
+            wait.Until(ExpectedConditions.ElementToBeClickable(PrintButton));
+            PrintButton.Click();
+        }
+
+        private void CancelPrintCoupon()
+        {
+            driver.SwitchTo().ActiveElement();
+            driver.SwitchTo().DefaultContent();
+        }
+
         public void AddCoupon(string percentage)
         {
             WaitforCouponsPage();
@@ -197,12 +216,14 @@ namespace PHPTravelsTest.POM
             SearchAndVerifyCoupon(percentage);
         }
 
-        public void DeleteCoupon()
+        public void DeleteCoupon(string value)
         {
             string deletevalue = CouponNumber.Text;
 
             WaitforCouponsPage();
+            SearchCoupon(value);
             ClickDeleteButton();
+            //SearchCoupon(value);
             ConfirmDeleteCoupon();
             ValidateDeletedCoupon(deletevalue);
         }
@@ -228,15 +249,22 @@ namespace PHPTravelsTest.POM
             ValidateCoupon(Value);
         }
 
-
         public void VerifyMaxUsesModification(string MaxUses)
         {
             WaitforCouponsPage();
             //IWebElement table = driver.FindElement(By.ClassName("xcrud-list table table-striped table-hover"));
             //IWebElement row = table.FindElement(By.ClassName("xcrud-row xcrud-row-0"));
             //IReadOnlyCollection<IWebElement> cells = row.FindElements(By.XPath("./*"));
-            
+
             NUnit.Framework.Assert.AreEqual(MaxUses, hardMaxUses.Text);
+        }
+
+        public void PrintCoupons()
+        {
+            WaitforCouponsPage();
+            ClickPrintButton();
+            CancelPrintCoupon();
+            //ClosePrintWindow);
         }
     }
 }
