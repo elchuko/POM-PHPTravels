@@ -4,6 +4,7 @@ using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
+using NUnit.Framework;
 
 namespace PHPTravelsTest.POM
 {
@@ -47,6 +48,9 @@ namespace PHPTravelsTest.POM
 
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/span/a")]
         private IWebElement GoButton;
+
+        [FindsBy(How = How.XPath, Using = "/html/body/div[2]/div/div/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[5]")]
+        private IWebElement hardMaxUses;
 
         //Coupons Page constructor
         public CouponsPage(IWebDriver driver): base(driver)
@@ -176,6 +180,12 @@ namespace PHPTravelsTest.POM
             ClickSearchButton();
             TypeSearchValue(Value);
             ClickGoButton();
+        }
+
+        public void VerifyMaxUsesModification(string MaxUses)
+        {
+            WaitforCouponsPage();
+            Assert.AreEqual(MaxUses, hardMaxUses.GetAttribute("value"));
         }
     }
 }
