@@ -22,9 +22,6 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[1]/button")]
         private IWebElement AddButton;
 
-       /* [FindsBy(How = How.XPath, Using = "//div[@id='editCop11']/div[2]/div[1]/div[4]/button[@id=11]")]
-        private IWebElement EditButton;*/
-
         [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/a")]
         private IWebElement SearchButton;
 
@@ -203,7 +200,9 @@ namespace PHPTravelsTest.POM
 
         private void CancelPrintCoupon()
         {
-            driver.SwitchTo().ActiveElement();
+            string xpath = "//div[@id='print-header']/div/button[2]";
+            IWebElement print = driver.SwitchTo().ActiveElement();
+            print.Click();
             driver.SwitchTo().DefaultContent();
         }
 

@@ -64,7 +64,7 @@ namespace PHPTravelsTest
         }
 
         [TestMethod]
-        public void UpdateMaxUsesFieldofFirstElement()
+        public void UpdateMaxUsesFieldOfFirstElement()
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";
