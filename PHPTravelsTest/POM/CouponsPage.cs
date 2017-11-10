@@ -166,7 +166,7 @@ namespace PHPTravelsTest.POM
 
         private void ValidateEditMaxUses(string MaxUses)
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(4000);
             string values = EditMaxUses.Text;
             Assert.IsTrue(values == MaxUses);
         }
@@ -177,13 +177,20 @@ namespace PHPTravelsTest.POM
             exists = CouponNumber.Displayed.Equals(deletevalue);
             Assert.IsFalse(exists);
         }
+        private void SearchCoupon(string Value)
+        {
+            WaitforCouponsPage();
+            ClickSearchButton();
+            TypeSearchValue(Value);
+            ClickGoButton();
+        }
         public void AddCoupon(string percentage)
         {
             WaitforCouponsPage();
             ClickAddButton();
             FillCoupon(percentage);
             SubmitCoupon();
-            SearchCoupon(percentage);
+            SearchAndVerifyCoupon(percentage);
         }
 
         public void DeleteCoupon()
@@ -196,16 +203,19 @@ namespace PHPTravelsTest.POM
             ValidateDeletedCoupon(deletevalue);
         }
 
-        public void EditCoupon(string MaxUses)
+        public void EditCoupon(string MaxUses, string id)
         {
             WaitforCouponsPage();
+            SearchCoupon(id);
             ClickUpdateButton();
             TypeMaxUsesVal(MaxUses);
             ClickEditCoupon();
+            SearchCoupon(id);
             ValidateEditMaxUses(MaxUses);
         }
 
-        public void SearchCoupon(string Value)
+
+        public void SearchAndVerifyCoupon(string Value)
         {
             WaitforCouponsPage();
             ClickSearchButton();
