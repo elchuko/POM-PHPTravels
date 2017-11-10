@@ -22,7 +22,7 @@ namespace PHPTravelsTest
             WebFactory webFactory = new WebFactory();
             driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
             driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl("http://www.phptravels.net/admin/coupons");
+            driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
         }
 
 
@@ -36,7 +36,10 @@ namespace PHPTravelsTest
              LoginPage loginPage = new LoginPage(driver);
              loginPage.FillLogin(username, password);
 
-             CouponsPage coupons = new CouponsPage(driver);
+             DashBoard dashboard = new DashBoard(driver);
+             dashboard.goToCouponsPage();
+
+            CouponsPage coupons = new CouponsPage(driver);
              coupons.AddCoupon(percentage);
              Thread.Sleep(1000);
          }
@@ -50,13 +53,16 @@ namespace PHPTravelsTest
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);
 
+            DashBoard dashboard = new DashBoard(driver);
+            dashboard.goToCouponsPage();
+
             CouponsPage coupons = new CouponsPage(driver);
             coupons.DeleteCoupon();
             Thread.Sleep(1000);
         }
 
         [TestMethod]
-        public void UpdateMaxUsesField()
+        public void UpdateMaxUsesFieldofFirstElement()
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";
@@ -65,11 +71,29 @@ namespace PHPTravelsTest
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);
 
-            //DashBoard dashboard = new DashBoard(driver);
-            //dashboard.goToCouponsPage();
+            DashBoard dashboard = new DashBoard(driver);
+            dashboard.goToCouponsPage();
 
             CouponsPage coupons = new CouponsPage(driver);
             coupons.EditCoupon(MaxUses);
+            Thread.Sleep(1000);
+        }
+
+        [TestMethod]
+        public void SearchCoupon()
+        {
+            string username = "admin@phptravels.com";
+            string password = "demoadmin";
+            string Value = "10";
+
+            LoginPage loginPage = new LoginPage(driver);
+            loginPage.FillLogin(username, password);
+
+            DashBoard dashboard = new DashBoard(driver);
+            dashboard.goToCouponsPage();
+
+            CouponsPage coupons = new CouponsPage(driver);
+            coupons.SearchCoupon(Value);
             Thread.Sleep(1000);
         }
 
