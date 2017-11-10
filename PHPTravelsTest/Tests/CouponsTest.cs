@@ -49,7 +49,7 @@ namespace PHPTravelsTest
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";
-            string Value = "10.00";
+            string Value = "50.00";
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);
@@ -68,7 +68,7 @@ namespace PHPTravelsTest
             string username = "admin@phptravels.com";
             string password = "demoadmin";
             string MaxUses = "20";
-            string Id = "10.00";
+            string Id = "50.00";
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);
