@@ -16,26 +16,25 @@ namespace PHPTravelsTest.POM
         private WebDriverWait wait;
 
         //Initialize xpaths variables
-        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[1]/button")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[1]/button")]
         private IWebElement AddButton;
 
         [FindsBy(How = How.XPath, Using = "//div[@id='editCop11']/div[2]/div[1]/div[4]/button[@id=11]")]
         private IWebElement EditButton;
-        ////*[@id="content"]/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[1]/i
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/a")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/a")]
         private IWebElement SearchButton;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[3]/i")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[3]/i")]
         private IWebElement DeleteButton;
 
         [FindsBy(How = How.Id, Using = "rate")]
         private IWebElement percentageField;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='add']")]
+        [FindsBy(How = How.XPath, Using = "//form[@id='addcoupon']/div[2]/div[2]/div[1]/span/button")]
         private IWebElement GenerateButton;
 
-        [FindsBy(How = How.Id, Using = "#")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='ADD_COUPON']/div[2]/div[1]/div[2]/div[3]/button")]
         private IWebElement SubmitButton;
 
         [FindsBy(How = How.CssSelector, Using = "#editcoupon11 > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > input:nth-child(1)")]
@@ -44,16 +43,16 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[1]/i")]
         private IWebElement UpdateButton;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/input")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/input")]
         private IWebElement SearchField;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/span/a")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/span/a")]
         private IWebElement GoButton;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[5]")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[5]")]
         private IWebElement NewCoupon;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[6]")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[6]")]
         private IWebElement EditMaxUses;
 
         [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[3]")]
@@ -86,6 +85,7 @@ namespace PHPTravelsTest.POM
         }
         private void SubmitCoupon()
         {
+            Thread.Sleep(3000);
             wait.Until(ExpectedConditions.ElementToBeClickable(SubmitButton));
             SubmitButton.Click();
         }
@@ -139,6 +139,7 @@ namespace PHPTravelsTest.POM
 
         private void ClickSearchButton()
         {
+            Thread.Sleep(3000);
             wait.Until(ExpectedConditions.ElementToBeClickable(SearchButton));
             SearchButton.Click();
         }
@@ -155,15 +156,17 @@ namespace PHPTravelsTest.POM
             wait.Until(ExpectedConditions.ElementToBeClickable(GoButton));
             GoButton.Click();
         }
-        
+
         private void ValidateCoupon(string percentage)
         {
+            Thread.Sleep(3000);
             string values = NewCoupon.Text;
             Assert.IsTrue(values == percentage);
         }
 
         private void ValidateEditMaxUses(string MaxUses)
         {
+            Thread.Sleep(3000);
             string values = EditMaxUses.Text;
             Assert.IsTrue(values == MaxUses);
         }
@@ -181,7 +184,6 @@ namespace PHPTravelsTest.POM
             FillCoupon(percentage);
             SubmitCoupon();
             SearchCoupon(percentage);
-            ValidateCoupon(percentage);
         }
 
         public void DeleteCoupon()
