@@ -4,6 +4,7 @@ using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PHPTravelsTest.POM
 {
@@ -18,8 +19,9 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[1]/button")]
         private IWebElement AddButton;
 
-        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[1]")]
+        [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[1]/i")]
         private IWebElement EditButton;
+        ////*[@id="content"]/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[1]/i
 
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/a")]
         private IWebElement SearchButton;
@@ -36,9 +38,6 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//*[@class='btn btn-primary submitcoupon']")]
         private IWebElement SubmitButton;
 
-        [FindsBy(How = How.XPath, Using = "//form[@id='editcoupon11']/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/input[@id='max']")]
-        private IWebElement MaxUsesField;
-
         [FindsBy(How = How.XPath, Using = "//div[@class='modal-footer']/button[@id='10']")]
         private IWebElement UpdateButton;
 
@@ -47,6 +46,16 @@ namespace PHPTravelsTest.POM
 
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/span/a")]
         private IWebElement GoButton;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[5]")]
+        private IWebElement NewCoupon;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[6]")]
+        private IWebElement EditMaxUses;
+
+        [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[3]")]
+        private IWebElement CouponNumber;
+
 
         //Coupons Page constructor
         public CouponsPage(IWebDriver driver): base(driver)
@@ -63,12 +72,12 @@ namespace PHPTravelsTest.POM
 
         private void ClickAddButton()
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(AddButton));
             AddButton.Click();
         }
 
         private void TypePercentageValue(string percentage)
         {
+            wait.Until(ExpectedConditions.ElementToBeSelected(percentageField));
             percentageField.SendKeys(percentage);
         }
         private void SubmitCoupon()
@@ -92,26 +101,33 @@ namespace PHPTravelsTest.POM
         private void ConfirmDeleteCoupon()
         {
             IAlert alert = driver.SwitchTo().Alert();
-            alert.Accept();
+            driver.SwitchTo().Alert().Accept();
             driver.SwitchTo().DefaultContent();
+
         }
 
         private void ClickUpdateButton()
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(UpdateButton));
-            UpdateButton.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(EditButton));
+            EditButton.Click();
         }
 
         private void TypeMaxUsesVal(string MaxUses)
         {
+            string number = CouponNumber.Text;
+            string Xpath = "//form[@id='editcoupon" + number + "']//input[@placeholder='Maximum Uses']";
+            IWebElement MaxUsesField = driver.FindElement(By.XPath(Xpath));
             wait.Until(ExpectedConditions.ElementToBeSelected(MaxUsesField));
             MaxUsesField.SendKeys(MaxUses);
         }
 
         private void ClickEditCoupon()
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(EditButton));
-            EditButton.Click();
+            string number = CouponNumber.Text;
+            string Xpath = "//div[@class='modal-footer']/button[@id=" + number+"]";
+            IWebElement  Update = driver.FindElement(By.XPath(Xpath));
+            wait.Until(ExpectedConditions.ElementToBeClickable(Update));
+            Update.Click();
         }
 
         private void ClickSearchButton()
@@ -131,34 +147,52 @@ namespace PHPTravelsTest.POM
             wait.Until(ExpectedConditions.ElementToBeClickable(GoButton));
             GoButton.Click();
         }
-        //Starting methods for coupons actions
-        /*public CouponsPage goToPage(string path)
+        
+        private void ValidateCoupon(string percentage)
         {
-            driver.Navigate().GoToUrl(path);
-            return new CouponsPage(driver);
-        }*/
+            string values = NewCoupon.Text;
+            Assert.IsTrue(values == percentage);
+        }
 
+        private void ValidateEditMaxUses(string MaxUses)
+        {
+            string values = EditMaxUses.Text;
+            Assert.IsTrue(values == MaxUses);
+        }
+
+        private void ValidateDeletedCoupon(string deletevalue)
+        {
+            bool exists = false;
+            exists = CouponNumber.Displayed.Equals(deletevalue);
+            Assert.IsFalse(exists);
+        }
         public void AddCoupon(string percentage)
         {
             WaitforCouponsPage();
             ClickAddButton();
             FillCoupon(percentage);
             SubmitCoupon();
+            SearchCoupon(percentage);
+            ValidateCoupon(percentage);
         }
 
         public void DeleteCoupon()
         {
+            string deletevalue = CouponNumber.Text;
+
             WaitforCouponsPage();
             ClickDeleteButton();
             ConfirmDeleteCoupon();
+            ValidateDeletedCoupon(deletevalue);
         }
 
         public void EditCoupon(string MaxUses)
         {
             WaitforCouponsPage();
-            ClickEditCoupon();
-            TypeMaxUsesVal(MaxUses);
             ClickUpdateButton();
+            TypeMaxUsesVal(MaxUses);
+            ClickEditCoupon();
+            ValidateEditMaxUses(MaxUses);
         }
 
         public void SearchCoupon(string Value)
@@ -167,6 +201,8 @@ namespace PHPTravelsTest.POM
             ClickSearchButton();
             TypeSearchValue(Value);
             ClickGoButton();
+            ValidateCoupon(Value);
         }
+
     }
 }

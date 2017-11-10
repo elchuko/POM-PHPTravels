@@ -31,7 +31,7 @@ namespace PHPTravelsTest
          {
              string username = "admin@phptravels.com";
              string password = "demoadmin";
-             string percentage = "50";
+             string percentage = "50.00";
 
              LoginPage loginPage = new LoginPage(driver);
              loginPage.FillLogin(username, password);
@@ -39,7 +39,7 @@ namespace PHPTravelsTest
              DashBoard dashboard = new DashBoard(driver);
              dashboard.goToCouponsPage();
 
-            CouponsPage coupons = new CouponsPage(driver);
+             CouponsPage coupons = new CouponsPage(driver);
              coupons.AddCoupon(percentage);
              Thread.Sleep(1000);
          }
@@ -84,7 +84,7 @@ namespace PHPTravelsTest
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";
-            string Value = "10";
+            string Value = "10.00";
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);
