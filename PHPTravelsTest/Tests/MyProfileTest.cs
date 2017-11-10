@@ -68,6 +68,7 @@ namespace PHPTravelsTest
             dashBoard.goMyProfile();
             MyProfilePage myProfile = new MyProfilePage(driver);
             myProfile.WriteFieldValues(firstname,lastname,mail,mobile,country,address1,address2);
+            myProfile.VerifyValue(firstname, lastname, mail, mobile, country, address1, address2);
             
         }
 
