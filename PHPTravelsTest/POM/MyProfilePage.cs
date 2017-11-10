@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using NUnit.Framework.Internal;
 using OpenQA.Selenium;
@@ -164,6 +165,26 @@ namespace PHPTravelsTest
             if (address2 != null) WriteMail(address2);
         }
 
+        public void VerifyValue
+            (
+            string firstname,
+            string lastname,
+            string mail,
+            string mobile,
+            string country,
+            string address1,
+            string address2
+            )
+        {
+            if (firstname != null) VerifyFirstName(firstname);
+            
+        }
+
+
+        public void VerifyFirstName(string name)
+        {
+            Assert.AreEqual(txtboxFirstName.GetAttribute("value"), name);
+        }
         //public void IsNull(Func<string,int> mymethod)
         //{
 
