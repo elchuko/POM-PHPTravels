@@ -49,6 +49,7 @@ namespace PHPTravelsTest
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";
+            string Value = "10.00";
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);
@@ -57,7 +58,7 @@ namespace PHPTravelsTest
             dashboard.goToCouponsPage();
 
             CouponsPage coupons = new CouponsPage(driver);
-            coupons.DeleteCoupon();
+            coupons.DeleteCoupon(Value);
             Thread.Sleep(1000);
         }
 
@@ -95,6 +96,23 @@ namespace PHPTravelsTest
 
             CouponsPage coupons = new CouponsPage(driver);
             coupons.SearchAndVerifyCoupon(Value);
+            Thread.Sleep(1000);
+        }
+
+        [TestMethod]
+        public void PrintCoupons()
+        {
+            string username = "admin@phptravels.com";
+            string password = "demoadmin";
+
+            LoginPage loginPage = new LoginPage(driver);
+            loginPage.FillLogin(username, password);
+
+            DashBoard dashboard = new DashBoard(driver);
+            dashboard.goToCouponsPage();
+
+            CouponsPage coupons = new CouponsPage(driver);
+            coupons.PrintCoupons();
             Thread.Sleep(1000);
         }
 

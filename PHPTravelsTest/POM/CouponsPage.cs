@@ -5,6 +5,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace PHPTravelsTest.POM
 {
@@ -58,14 +59,18 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[3]")]
         private IWebElement CouponNumber;
 
+        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[1]/div[1]/a[2]")]
+        private IWebElement PrintButton;
+
 
         //Coupons Page constructor
-        public CouponsPage(IWebDriver driver): base(driver)
+        public CouponsPage(IWebDriver driver) : base(driver)
         {
+            this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             //PageFactory.InitElements(driver, this)
         }
-         
+
         //Starting methods for coupons actions.
         private void WaitforCouponsPage()
         {
@@ -100,16 +105,17 @@ namespace PHPTravelsTest.POM
 
         private void ClickDeleteButton()
         {
+            Thread.Sleep(3000);
+            //wait.Until(ExpectedConditions.ElementToBeClickable(DeleteButton));
             DeleteButton.Click();
         }
 
         private void ConfirmDeleteCoupon()
         {
-            System.Threading.Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.AlertIsPresent());
             IAlert alert = driver.SwitchTo().Alert();
-            driver.SwitchTo().Alert().Accept();
+            alert.Accept();
             driver.SwitchTo().DefaultContent();
-
         }
 
         private void ClickUpdateButton()
@@ -146,7 +152,7 @@ namespace PHPTravelsTest.POM
 
         private void TypeSearchValue(string Value)
         {
-           
+
             wait.Until(ExpectedConditions.ElementToBeClickable(SearchField));
             SearchField.SendKeys(Value);
         }
@@ -184,6 +190,19 @@ namespace PHPTravelsTest.POM
             TypeSearchValue(Value);
             ClickGoButton();
         }
+
+        private void ClickPrintButton()
+        {
+            wait.Until(ExpectedConditions.ElementToBeClickable(PrintButton));
+            PrintButton.Click();
+        }
+
+        private void CancelPrintCoupon()
+        {
+            driver.SwitchTo().ActiveElement();
+            driver.SwitchTo().DefaultContent();
+        }
+
         public void AddCoupon(string percentage)
         {
             WaitforCouponsPage();
@@ -193,12 +212,14 @@ namespace PHPTravelsTest.POM
             SearchAndVerifyCoupon(percentage);
         }
 
-        public void DeleteCoupon()
+        public void DeleteCoupon(string value)
         {
             string deletevalue = CouponNumber.Text;
 
             WaitforCouponsPage();
+            SearchCoupon(value);
             ClickDeleteButton();
+            //SearchCoupon(value);
             ConfirmDeleteCoupon();
             ValidateDeletedCoupon(deletevalue);
         }
@@ -224,5 +245,12 @@ namespace PHPTravelsTest.POM
             ValidateCoupon(Value);
         }
 
+        public void PrintCoupons()
+        {
+            WaitforCouponsPage();
+            ClickPrintButton();
+            CancelPrintCoupon();
+            //ClosePrintWindow);
+        }
     }
 }
