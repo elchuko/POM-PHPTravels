@@ -6,6 +6,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using PHPTravelsTest.POM;
 using System.Threading;
+using PHPTravelsTest.WebFactoryMethod;
 
 namespace PHPTravelsTest
 {
@@ -17,11 +18,12 @@ namespace PHPTravelsTest
         [SetUp]
         public void SetUp()
         {
-           // driver = new FirefoxDriver(new FirefoxOptions()); //factory for chosing which browser is needed
-            driver = new ChromeDriver(new ChromeOptions());
+            WebFactory webFactory = new WebFactory();
+            driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
+
         }
 
 
@@ -35,16 +37,7 @@ namespace PHPTravelsTest
             loginPage.FillLogin(username, password);
             DashBoard dashBoard = new DashBoard(driver);
             System.Threading.Thread.Sleep(3000);
-
-            //try
-            //{
-            //    dashBoard.VerifyWeAreDashBoard();
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    throw;
-            //}
+            
         }
 
         [TearDown]

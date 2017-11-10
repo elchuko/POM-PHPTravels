@@ -19,7 +19,7 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[1]/button")]
         private IWebElement AddButton;
 
-        [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[1]/i")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='editCop11']/div[2]/div[1]/div[4]/button[@id=11]")]
         private IWebElement EditButton;
         ////*[@id="content"]/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[1]/i
 
@@ -35,10 +35,13 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//*[@id='add']")]
         private IWebElement GenerateButton;
 
-        [FindsBy(How = How.XPath, Using = "//*[@class='btn btn-primary submitcoupon']")]
+        [FindsBy(How = How.Id, Using = "#")]
         private IWebElement SubmitButton;
 
-        [FindsBy(How = How.XPath, Using = "//div[@class='modal-footer']/button[@id='10']")]
+        [FindsBy(How = How.CssSelector, Using = "#editcoupon11 > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > input:nth-child(1)")]
+        private IWebElement MaxUsesField;
+
+        [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[1]/i")]
         private IWebElement UpdateButton;
 
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/input")]
@@ -77,7 +80,8 @@ namespace PHPTravelsTest.POM
 
         private void TypePercentageValue(string percentage)
         {
-            wait.Until(ExpectedConditions.ElementToBeSelected(percentageField));
+            System.Threading.Thread.Sleep(3000);
+            percentageField.Clear();
             percentageField.SendKeys(percentage);
         }
         private void SubmitCoupon()
@@ -87,6 +91,7 @@ namespace PHPTravelsTest.POM
         }
         private void FillCoupon(string percentage)
         {
+
             TypePercentageValue(percentage);
             wait.Until(ExpectedConditions.ElementToBeClickable(GenerateButton));
             GenerateButton.Click();
@@ -100,6 +105,7 @@ namespace PHPTravelsTest.POM
 
         private void ConfirmDeleteCoupon()
         {
+            System.Threading.Thread.Sleep(2000);
             IAlert alert = driver.SwitchTo().Alert();
             driver.SwitchTo().Alert().Accept();
             driver.SwitchTo().DefaultContent();
@@ -108,26 +114,27 @@ namespace PHPTravelsTest.POM
 
         private void ClickUpdateButton()
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(EditButton));
-            EditButton.Click();
+            //wait.Until(ExpectedConditions.ElementToBeClickable(UpdateButton));
+            System.Threading.Thread.Sleep(3000);
+            UpdateButton.Click();
         }
 
         private void TypeMaxUsesVal(string MaxUses)
         {
-            string number = CouponNumber.Text;
-            string Xpath = "//form[@id='editcoupon" + number + "']//input[@placeholder='Maximum Uses']";
-            IWebElement MaxUsesField = driver.FindElement(By.XPath(Xpath));
-            wait.Until(ExpectedConditions.ElementToBeSelected(MaxUsesField));
+            //driver.SwitchTo().Frame();
+            //wait.Until(ExpectedConditions.ElementIsVisible(MaxUsesField));
+            System.Threading.Thread.Sleep(3000);
+            MaxUsesField.Clear();
             MaxUsesField.SendKeys(MaxUses);
         }
 
         private void ClickEditCoupon()
         {
-            string number = CouponNumber.Text;
-            string Xpath = "//div[@class='modal-footer']/button[@id=" + number+"]";
-            IWebElement  Update = driver.FindElement(By.XPath(Xpath));
-            wait.Until(ExpectedConditions.ElementToBeClickable(Update));
-            Update.Click();
+            //string number = CouponNumber.Text;
+            //string Xpath = "//div[@class='modal-footer']/button[@id=" + number+"]";
+            //IWebElement  Update = driver.FindElement(By.XPath(Xpath));
+            wait.Until(ExpectedConditions.ElementToBeClickable(EditButton));
+            EditButton.Click();
         }
 
         private void ClickSearchButton()
@@ -138,6 +145,7 @@ namespace PHPTravelsTest.POM
 
         private void TypeSearchValue(string Value)
         {
+           
             wait.Until(ExpectedConditions.ElementToBeClickable(SearchField));
             SearchField.SendKeys(Value);
         }

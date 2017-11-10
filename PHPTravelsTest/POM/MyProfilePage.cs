@@ -50,8 +50,6 @@ namespace PHPTravelsTest
 
 
         //Methods Declaration
-
-        //We verify we are in MyProfilePage
         public bool VerifyWeAreMyProfilePage()
         {
             return true;
@@ -70,11 +68,8 @@ namespace PHPTravelsTest
 
         public void WriteLastName(string lastName)
         {
-
             txtboxLastName.Clear();
             txtboxLastName.SendKeys(lastName);
-
-
         }
 
         public string GetLastName()
