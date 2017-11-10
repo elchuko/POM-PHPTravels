@@ -32,6 +32,7 @@ namespace PHPTravelsTest
              string username = "admin@phptravels.com";
              string password = "demoadmin";
              string percentage = "50.00";
+             string couponcode = "QAtest";
 
              LoginPage loginPage = new LoginPage(driver);
              loginPage.FillLogin(username, password);
@@ -40,7 +41,7 @@ namespace PHPTravelsTest
              dashboard.goToCouponsPage();
 
              CouponsPage coupons = new CouponsPage(driver);
-             coupons.AddCoupon(percentage);
+             coupons.AddCoupon(percentage, couponcode);
              Thread.Sleep(1000);
          }
 
