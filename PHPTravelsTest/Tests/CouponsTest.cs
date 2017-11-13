@@ -68,7 +68,7 @@ namespace PHPTravelsTest
             string username = "admin@phptravels.com";
             string password = "demoadmin";
             string MaxUses = "20";
-            string Id = "50.00";
+            string Id = "wWIw";
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);

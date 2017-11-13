@@ -49,7 +49,7 @@ namespace PHPTravelsTest.POM
         [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/span/a")]
         private IWebElement GoButton;
 
-        [FindsBy(How = How.CssSelector, Using = "tr.xcrud-row:nth-child(2) > td:nth-child(6)")]
+        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[6]")]
         private IWebElement hardMaxUses;
 
         [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[5]")]
@@ -69,7 +69,6 @@ namespace PHPTravelsTest.POM
         {
             this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            //PageFactory.InitElements(driver, this)
         }
 
         //Starting methods for coupons actions.
@@ -252,10 +251,6 @@ namespace PHPTravelsTest.POM
         public void VerifyMaxUsesModification(string MaxUses)
         {
             WaitforCouponsPage();
-            //IWebElement table = driver.FindElement(By.ClassName("xcrud-list table table-striped table-hover"));
-            //IWebElement row = table.FindElement(By.ClassName("xcrud-row xcrud-row-0"));
-            //IReadOnlyCollection<IWebElement> cells = row.FindElements(By.XPath("./*"));
-
             NUnit.Framework.Assert.AreEqual(MaxUses, hardMaxUses.Text);
         }
 
