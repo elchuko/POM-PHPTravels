@@ -31,43 +31,63 @@ namespace PHPTravelsTest.POM.Validations
                 exists = CouponId.Displayed.Equals(deletevalue);
             }
 
-            Assert.IsFalse(exists);
+            try
+            {
+                Assert.IsFalse(exists);
+            }
+            catch(Exception e)
+            {
+                Console.Write("Element was not Delete successfully", e.Message);
+            }
+            
         }
 
-        public static void ValidateCouponbyPercentage(IWebElement PercentageField,IWebElement NoFoundElementsField, string percentage)
+        public static void ValidateCouponbyPercentage(IWebElement PercentageField, IWebElement NoFoundElementsField, string percentage)
         {
             string value1;
 
             Thread.Sleep(2000);
 
-            if (NoFoundElementsField.Displayed == true)
-            {
-                value1 = NoFoundElementsField.Text;
-            }
-            else
+            if (ValidateNoElementsFound(NoFoundElementsField) == true)
             {
                 value1 = PercentageField.Text;
+
+                try
+                {
+                    Assert.IsTrue(value1 == percentage);
+                }
+                catch(Exception e)
+                {
+                    Console.Write("Percentage field is not displayed correctly.., Message:{0}", e.Message);
+                    throw;
+                }
             }
-      
-            Assert.IsTrue(value1 == percentage);
+
+            
         }
 
-        public static void ValidateCouponbyCouponCode(IWebElement CouponCodeField, IWebElement NoFoundElementsField, string percentage)
+        public static void ValidateCouponbyCouponCode(IWebElement CouponCodeField, IWebElement NoFoundElementsField, string CouponCode)
         {
             string value1;
 
             Thread.Sleep(2000);
 
-            if (NoFoundElementsField.Displayed == true)
-            {
-                value1 = NoFoundElementsField.Text;
-            }
-            else
+            if (ValidateNoElementsFound(NoFoundElementsField) == true)
             {
                 value1 = CouponCodeField.Text;
+
+                try
+                {
+                    Assert.IsTrue(value1 == CouponCode);
+                }
+                catch(Exception e)
+                {
+                    Console.Write("Coupon Code field is not displayed correctly.., Message:{0}", e.Message);
+                    throw;
+                }
             }
 
-            Assert.IsTrue(value1 == percentage);
+            
         }
 
         public static void ValidateCouponByMaxUses(IWebElement MaxUsesField, IWebElement NoFoundElementsField, string MaxUses)
@@ -76,40 +96,80 @@ namespace PHPTravelsTest.POM.Validations
 
             Thread.Sleep(2000);
 
-            if (NoFoundElementsField.Displayed == true)
-            {
-                values = NoFoundElementsField.Text;
-            }
-            else
+            if (ValidateNoElementsFound(NoFoundElementsField) == true)
             {
                 values = MaxUsesField.Text;
+                try
+                {
+                    Assert.IsTrue(values == MaxUses);
+                }
+                catch (Exception e)
+                {
+                    Console.Write("Max Uses field is not displayed correctly.., Message:{0}", e.Message);
+                    throw;
+                }
             }
 
-            Assert.IsTrue(values == MaxUses);
+            
         }
 
         public static void ValidateSearchField(IWebElement CouponCodeField, IWebElement PercentageField, IWebElement MaxUsesField, IWebElement NoFoundElement, string value)
         {
-            string comparison;
-            if(CouponCodeField.Text == value)
+            bool failed = ValidateNoElementsFound(NoFoundElement);
+
+           if(failed==true)
             {
-                comparison = CouponCodeField.Text;
-            }
-            else
-            {
-                if (PercentageField.Text == value)
+                if (CouponCodeField.Text == value)
                 {
-                    comparison = PercentageField.Text;
+                    failed = true;
                 }
                 else
-                    if (MaxUsesField.Text == value)
                 {
-                    comparison = MaxUsesField.Text;
+                    if (PercentageField.Text == value)
+                    {
+                        failed = true;
+                    }
+                    else
+                    {
+                        if (MaxUsesField.Text == value)
+                        {
+                            failed = true;
+                        }
+                        else
+                            failed = false;
+                    }
+
                 }
-                else
-                    comparison = NoFoundElement.Text;
             }
-            Assert.IsTrue(comparison == value);
+
+            try
+            {
+                Assert.IsTrue(failed);
+            }
+            catch(Exception e)
+            {
+                Console.Write("No Elements compatible were found.., Message:{0}",e.Message);
+                throw;
+            }
+        }
+
+        public static bool ValidateNoElementsFound(IWebElement NoFoundElement)
+        {
+            bool failed = false;
+
+            try
+            {
+                if (NoFoundElement.Enabled == true)
+                {
+                    failed = false;
+                }
+            }
+            catch (FieldAccessException)
+            {
+                failed = true;
+            }
+
+            return failed;
         }
     }
 }

@@ -292,7 +292,7 @@ namespace PHPTravelsTest.POM
             ClickSearchButton();
             TypeSearchValue(Value);
             ClickGoButton();
-            CouponsPageValidations.ValidateSearchField(CouponCodeField,PercentageField,MaxUsesField,NoFoundElementsField,Value);
+            CouponsPageValidations.ValidateSearchField(CouponCodeField, PercentageField, MaxUsesField, NoFoundElementsField, Value);
         }
 
         public void VerifyMaxUsesModification(string MaxUses)

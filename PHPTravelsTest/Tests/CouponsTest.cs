@@ -79,7 +79,6 @@ namespace PHPTravelsTest
             CouponsPage coupons = new CouponsPage(driver);
             coupons.EditCouponOnMaxUseValue(MaxUses,Id);
             Thread.Sleep(1000);
-            //coupons.VerifyMaxUsesModification(MaxUses);
 
         }
 
