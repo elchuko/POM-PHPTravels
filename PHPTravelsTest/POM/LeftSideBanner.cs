@@ -12,6 +12,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
+using PHPTravelsTest.POM;
 
 namespace PHPTravelsTest
 {

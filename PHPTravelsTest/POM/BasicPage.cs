@@ -13,7 +13,7 @@ namespace PHPTravelsTest
         private IWebDriver driver;
         protected BasicPage(IWebDriver driver)
         {
-            //this.driver = driver;
+            this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
 

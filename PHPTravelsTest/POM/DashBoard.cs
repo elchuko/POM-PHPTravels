@@ -8,6 +8,7 @@ using OpenQA.Selenium.Chrome;
 using System.Threading;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Support.PageObjects;
+using PHPTravelsTest.POM;
 
 namespace PHPTravelsTest
 {

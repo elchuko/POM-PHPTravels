@@ -68,6 +68,7 @@
     <Compile Include="POM\MyProfilePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\MyProfileTest.cs" />
+    <Compile Include="Utils\WebDriverUtils.cs" />
     <Compile Include="WebFactoryMethod\AbsWebFactory.cs" />
     <Compile Include="WebFactoryMethod\WebFactory.cs" />
     <Compile Include="POM\CouponsPage.cs" />
