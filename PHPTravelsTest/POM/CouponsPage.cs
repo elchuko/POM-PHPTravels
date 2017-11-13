@@ -7,6 +7,7 @@ using OpenQA.Selenium.Support.UI;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PHPTravelsTest.Utils;
+using PHPTravelsTest.POM.Validations;
 
 namespace PHPTravelsTest.POM
 {
@@ -15,7 +16,6 @@ namespace PHPTravelsTest.POM
 
         //Initialize WebDriver(s)
         public IWebDriver driver;
-        private WebDriverWait wait;
 
         //Initialize xpaths variables
 
@@ -47,6 +47,9 @@ namespace PHPTravelsTest.POM
 
         [FindsBy(How = How.XPath, Using = ".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[4]")]
         private IWebElement CouponCodeField;
+
+        [FindsBy(How = How.XPath, Using = ".//tr[@class='xcrud-row']/td")]
+        IWebElement NoFoundElementsField;
 
         //Coupon Codes Management Add Coupons window elements
         [FindsBy(How = How.XPath, Using = ".//form[@id='addcoupon']//input[@id='rate' and @placeholder='Percentage']")]
@@ -81,14 +84,15 @@ namespace PHPTravelsTest.POM
         public CouponsPage(IWebDriver driver) : base(driver)
         {
             this.driver = driver;
-            //PageFactory.InitElements(driver, this)
         }
 
         //Starting methods for coupons actions.
 
         private void ClickAddButton()
         {
+            WebDriverUtils.WaitForElementToBeVisible(driver, ".//button[@class='btn btn-success']");
             WebDriverUtils.WaitForElementToBeClickable(driver, AddButton);
+
             AddButton.Click();
         }
 
@@ -114,6 +118,7 @@ namespace PHPTravelsTest.POM
         {
             WebDriverUtils.WaitForElementToBeVisible(driver, ".//form[@id='addcoupon']//button[@id='add']");
             WebDriverUtils.WaitForElementToBeClickable(driver, GenerateButton);
+
             GenerateButton.Click();
             Thread.Sleep(3000);
         }
@@ -126,10 +131,14 @@ namespace PHPTravelsTest.POM
             ACCouponCodeField.Clear();
             ACCouponCodeField.SendKeys(codecoupon);
         }
-        private void FillCouponByPercentageAndGenericCode(string percentage)
+        private string FillCouponByPercentageAndGenericCode(string percentage)
         {
             TypePercentageValue(percentage);
             ClickGenerateButton();
+
+            WebDriverUtils.WaitForElementToBeClickable(driver,ACCouponCodeField);
+
+            return ACCouponCodeField.Text;
         }
 
         private void FillCouponByPercentageAndDefinedCode(string percentage, string codevalue)
@@ -143,6 +152,8 @@ namespace PHPTravelsTest.POM
         {
             WebDriverUtils.WaitForElementToBeVisible(driver,".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[3]/i");
             WebDriverUtils.WaitForElementToBeClickable(driver,DeleteButton);
+
+            Thread.Sleep(2000);
             DeleteButton.Click();
         }
 
@@ -195,42 +206,23 @@ namespace PHPTravelsTest.POM
         { 
             WebDriverUtils.WaitForElementToBeVisible(driver, ".//a[@class='xcrud-search-toggle btn btn-default']");
             WebDriverUtils.WaitForElementToBeClickable(driver, SearchButton);
+
             SearchButton.Click();
         }
 
         private void TypeSearchValue(string Value)
         {
 
-            wait.Until(ExpectedConditions.ElementToBeClickable(SearchField));
+            WebDriverUtils.WaitForElementToBeClickable(driver,SearchField);
             SearchField.SendKeys(Value);
         }
 
         private void ClickGoButton()
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(GoButton));
+            WebDriverUtils.WaitForElementToBeClickable(driver,GoButton);
             GoButton.Click();
         }
 
-        private void ValidateCoupon(string percentage)
-        {
-            Thread.Sleep(3000);
-            string values = PercentageField.Text;
-            Assert.IsTrue(values == percentage);
-        }
-
-        private void ValidateEditMaxUses(string MaxUses)
-        {
-            Thread.Sleep(4000);
-            string values = MaxUsesField.Text;
-            Assert.IsTrue(values == MaxUses);
-        }
-
-        private void ValidateDeletedCoupon(string deletevalue)
-        {
-            bool exists = false;
-            exists = CouponId.Displayed.Equals(deletevalue);
-            Assert.IsFalse(exists);
-        }
         private void SearchCoupon(string Value)
         {
             ClickSearchButton();
@@ -240,7 +232,7 @@ namespace PHPTravelsTest.POM
 
         private void ClickPrintButton()
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(PrintButton));
+            WebDriverUtils.WaitForElementToBeClickable(driver,PrintButton);
             PrintButton.Click();
         }
 
@@ -254,10 +246,13 @@ namespace PHPTravelsTest.POM
 
         public void AddCouponWithGenericCode(string percentage)
         {
+
             ClickAddButton();
             FillCouponByPercentageAndGenericCode(percentage);
             ClickSubmitCoupon();
-            SearchAndVerifyCoupon(percentage);
+            SearchCoupon(percentage);
+            CouponsPageValidations.ValidateCouponbyPercentage(PercentageField,NoFoundElementsField,percentage);
+            //SearchAndVerifyCoupon(percentage);
         }
 
         public void AddCouponWithDefinedCode(string percentage, string codevalue)
@@ -265,7 +260,9 @@ namespace PHPTravelsTest.POM
             ClickAddButton();
             FillCouponByPercentageAndDefinedCode(percentage, codevalue);
             ClickSubmitCoupon();
-            SearchAndVerifyCoupon(percentage);
+            SearchCoupon(codevalue);
+            CouponsPageValidations.ValidateCouponbyPercentage(PercentageField, NoFoundElementsField, percentage);
+            CouponsPageValidations.ValidateCouponbyCouponCode(CouponCodeField,NoFoundElementsField, codevalue);
         }
 
         public void DeleteCoupon(string value)
@@ -276,7 +273,7 @@ namespace PHPTravelsTest.POM
             deletevalue = CouponId.Text;
             ClickDeleteButton();
             ConfirmDeleteCoupon();
-            ValidateDeletedCoupon(deletevalue);
+           CouponsPageValidations.ValidateDeletedCoupon(NoFoundElementsField,CouponId, deletevalue);
         }
 
         public void EditCouponOnMaxUseValue(string MaxUses, string id)
@@ -286,7 +283,7 @@ namespace PHPTravelsTest.POM
             TypeMaxUsesVal(MaxUses);
             ClickUpdateButton();
             SearchCoupon(id);
-            ValidateEditMaxUses(MaxUses);
+            CouponsPageValidations.ValidateCouponByMaxUses(MaxUsesField,NoFoundElementsField,MaxUses);
         }
 
 
@@ -295,7 +292,7 @@ namespace PHPTravelsTest.POM
             ClickSearchButton();
             TypeSearchValue(Value);
             ClickGoButton();
-            ValidateCoupon(Value);
+            CouponsPageValidations.ValidateSearchField(CouponCodeField,PercentageField,MaxUsesField,NoFoundElementsField,Value);
         }
 
         public void VerifyMaxUsesModification(string MaxUses)
