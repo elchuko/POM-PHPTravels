@@ -39,6 +39,7 @@ namespace PHPTravelsTest.Tests
             dashBoard.GoCarsSubMenu();
             CarsPage carsPage = new CarsPage(driver);
             carsPage.AddCar(carName);
+            carsPage.ValidateAddedCar(carName);
 
         }
 

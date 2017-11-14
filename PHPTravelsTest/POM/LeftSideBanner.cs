@@ -70,7 +70,6 @@ namespace PHPTravelsTest
         public void GoToExtrasInsideCarsMenu()
         {
             GoToCarsMenu();
-            
             extrasInsideCars.Click();
         }
 

@@ -66,7 +66,7 @@
     <Compile Include="POM\DashBoard.cs" />
     <Compile Include="POM\LoginPage.cs" />
     <Compile Include="POM\SettingsCars.cs" />
-    <Compile Include="POM\Validate.cs" />
+    <Compile Include="Validations\CarsValidations.cs" />
     <Compile Include="Validations\CouponsPageValidations.cs" />
     <Compile Include="Tests\LoginTest.cs" />
     <Compile Include="POM\MyProfilePage.cs" />

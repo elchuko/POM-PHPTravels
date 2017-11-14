@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 using PHPTravelsTest.Utils;
 
 namespace PHPTravelsTest.POM
@@ -21,6 +22,18 @@ namespace PHPTravelsTest.POM
 
         [FindsBy(How = How.XPath, Using = "//*[@id='add']")]
         private IWebElement submitButton;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div/div[2]/div/div/div[1]/div[3]/a")]
+        private IWebElement searchButton;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div/div[2]/div/div/div[1]/div[3]/span[1]/input")]
+        private IWebElement searchTxtbox;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div/div[2]/div/div/div[1]/div[3]/span[1]/span/a")]
+        private IWebElement goButton;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='content']/div/div[2]/div/div/div[1]/div[2]/table/tbody/tr/td[5]/a")]
+        private IWebElement searchResultName;
 
         public CarsPage(IWebDriver driver) : base(driver)
         {
@@ -39,8 +52,23 @@ namespace PHPTravelsTest.POM
             System.Threading.Thread.Sleep(2000);
         }
 
+        public void ValidateAddedCar(string carName)
+        {
+            WebDriverUtils.WaitForElementToBeVisible(driver, "//*[@id='content']/div/div[2]/div/div/div[1]/div[3]/a");
+            searchButton.Click();
+            WebDriverUtils.WaitForElementToBeVisible(driver, "//*[@id='content']/div/div[2]/div/div/div[1]/div[3]/span[1]/input");
+            searchTxtbox.Clear();
+            searchTxtbox.SendKeys(carName);
+            goButton.Click();
+            Assert.AreEqual(carName, searchResultName.Text);
 
 
-        
+
+
+        }
+
+
+
+
     }
 }
