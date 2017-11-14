@@ -40,7 +40,7 @@ namespace PHPTravelsTest
              dashboard.goToCouponsPage();
 
              CouponsPage coupons = new CouponsPage(driver);
-             coupons.AddCoupon(percentage);
+             coupons.AddCouponWithGenericCode(percentage);
              Thread.Sleep(1000);
          }
 
@@ -63,11 +63,12 @@ namespace PHPTravelsTest
         }
 
         [TestMethod]
-        public void UpdateMaxUsesFieldofFirstElement()
+        public void UpdateMaxUsesFieldOfFirstElement()
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";
             string MaxUses = "20";
+
             string Id = "wWIw";
 
             LoginPage loginPage = new LoginPage(driver);
@@ -77,9 +78,8 @@ namespace PHPTravelsTest
             dashboard.goToCouponsPage();
 
             CouponsPage coupons = new CouponsPage(driver);
-            coupons.EditCoupon(MaxUses,Id);
+            coupons.EditCouponOnMaxUseValue(MaxUses,Id);
             Thread.Sleep(1000);
-            coupons.VerifyMaxUsesModification(MaxUses);
 
         }
 

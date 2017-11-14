@@ -12,6 +12,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
+using PHPTravelsTest.POM;
 
 namespace PHPTravelsTest
 {
@@ -27,9 +28,6 @@ namespace PHPTravelsTest
         }
 
         [FindsBy(How = How.XPath, Using = "//*[@id='social-sidebar-menu']/li[6]/a")]
-        private IWebElement dropdownCars;
-
-        [FindsBy(How = How.XPath, Using = "//*[@id='Cars']/li[1]/a")]
         private IWebElement menuCars;
 
         [FindsBy(How = How.XPath, Using = "html/body/div[2]/header/nav/div[3]/ul[2]/li[2]/ul/li[1]/a")]
@@ -40,6 +38,15 @@ namespace PHPTravelsTest
 
         [FindsBy(How = How.XPath, Using = "//*[@id='social-sidebar-menu']/li[12]/a/i")]
         private IWebElement CouponsPage;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='Cars']/li[1]/a")]
+        private IWebElement carsInsideCars;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='Cars']/li[3]/a")]
+        private IWebElement extrasInsideCars;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='Cars']/li[4]/a")]
+        private IWebElement carsSettingsInsideCars;
 
         public void GoToMyProfile()
         {
@@ -54,6 +61,36 @@ namespace PHPTravelsTest
             wait.Until(ExpectedConditions.ElementToBeClickable(CouponsPage));
             CouponsPage.Click();
         }
+
+        public void GoToCarsMenu()
+        {
+            wait.Until(ExpectedConditions.ElementToBeClickable(menuCars));
+            menuCars.Click();
+
+        }
+
+        public void GoToCarsInsideCarsMenu()
+        {
+            GoToCarsMenu();
+            wait.Until(ExpectedConditions.ElementToBeClickable(carsInsideCars));
+            carsInsideCars.Click();
+        }
+
+        public void GoToExtrasInsideCarsMenu()
+        {
+            GoToCarsMenu();
+            wait.Until(ExpectedConditions.ElementToBeClickable(extrasInsideCars));
+            extrasInsideCars.Click();
+        }
+
+        public void GoToCarSettingsInsideCarsMenu()
+        {
+            GoToCarsMenu();
+            wait.Until(ExpectedConditions.ElementToBeClickable(carsSettingsInsideCars));
+            carsSettingsInsideCars.Click();
+        }
+
+
 
     }
 }

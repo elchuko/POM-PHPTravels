@@ -5,9 +5,9 @@ using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
-using NUnit.Framework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+using PHPTravelsTest.Utils;
+using PHPTravelsTest.POM.Validations;
 
 namespace PHPTravelsTest.POM
 {
@@ -16,179 +16,219 @@ namespace PHPTravelsTest.POM
 
         //Initialize WebDriver(s)
         public IWebDriver driver;
-        private WebDriverWait wait;
 
         //Initialize xpaths variables
-        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[1]/button")]
+
+        //Coupon Codes Management Top Actions buttons
+        [FindsBy(How = How.XPath, Using = ".//button[@class='btn btn-success']")]
         private IWebElement AddButton;
 
-       /* [FindsBy(How = How.XPath, Using = "//div[@id='editCop11']/div[2]/div[1]/div[4]/button[@id=11]")]
-        private IWebElement EditButton;*/
+        [FindsBy(How = How.XPath, Using = ".//div[@class='xcrud-top-actions']//a[@data-task='print']")]
+        private IWebElement PrintButton;
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/a")]
-        private IWebElement SearchButton;
+        [FindsBy(How = How.XPath, Using = ".//div[@class='xcrud-top-actions']//a[@data-task='csv']")]
+        private IWebElement ImportIntoCSVButton;
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[11]/span/a[3]/i")]
+        //Coupon Codes Management Table elements
+        [FindsBy(How = How.XPath, Using = ".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[1]/i")]
+        private IWebElement EditButton;
+
+        [FindsBy(How = How.XPath, Using = ".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[3]/i")]
         private IWebElement DeleteButton;
 
-        [FindsBy(How = How.Id, Using = "rate")]
-        private IWebElement percentageField;
+        [FindsBy(How = How.XPath, Using = ".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[3]")]
+        private IWebElement CouponId;
 
-        [FindsBy(How = How.XPath, Using = "//form[@id='addcoupon']/div[2]/div[2]/div[1]/span/button")]
-        private IWebElement GenerateButton;
+        [FindsBy(How = How.XPath, Using = ".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[5]")]
+        private IWebElement PercentageField;
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='ADD_COUPON']/div[2]/div[1]/div[2]/div[3]/button")]
-        private IWebElement SubmitButton;
+        [FindsBy(How = How.XPath, Using = ".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[6]")]
+        private IWebElement MaxUsesField;
 
-        [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[1]/i")]
-        private IWebElement UpdateButton;
+        [FindsBy(How = How.XPath, Using = ".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[4]")]
+        private IWebElement CouponCodeField;
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/input")]
-        private IWebElement SearchField;
+        [FindsBy(How = How.XPath, Using = ".//tr[@class='xcrud-row']/td")]
+        IWebElement NoFoundElementsField;
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[3]/span[1]/span/a")]
-        private IWebElement GoButton;
+        //Coupon Codes Management Add Coupons window elements
+        [FindsBy(How = How.XPath, Using = ".//form[@id='addcoupon']//input[@id='rate' and @placeholder='Percentage']")]
+        //[FindsBy(How = How.Id, Using = "rate")]
+        private IWebElement ACPercentageField;
 
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[6]")]
         private IWebElement hardMaxUses;
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[5]")]
-        private IWebElement NewCoupon;
+        [FindsBy(How = How.XPath, Using = ".//input[@id='codeadd' and @placeholder='Coupon Code']")]
+        private IWebElement ACCouponCodeField;
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[6]")]
-        private IWebElement EditMaxUses;
+        [FindsBy(How = How.XPath, Using = ".//form[@id='addcoupon']//button[@id='add']")]
+        private IWebElement GenerateButton;
 
-        [FindsBy(How = How.XPath, Using = "//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[3]")]
-        private IWebElement CouponNumber;
+        [FindsBy(How = How.XPath, Using = ".//div[@class='modal-footer']/button[@id='#']")]
+        private IWebElement SubmitButton;
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='content']/div[1]/div[2]/div[2]/div/div[1]/div[1]/div[1]/a[2]")]
-        private IWebElement PrintButton;
+        //Coupon Codes Management Search elements
+        [FindsBy(How = How.XPath, Using = ".//input[@name='phrase']")]
+        private IWebElement SearchField;
+
+        [FindsBy(How = How.XPath, Using = ".//a[@class='xcrud-search-toggle btn btn-default']")]
+        private IWebElement SearchButton;
+
+        [FindsBy(How = How.XPath, Using = ".//a[@class='xcrud-action btn btn-primary']")]
+        private IWebElement GoButton;
+
+       // [FindsBy(How = How.CssSelector, Using = "tr.xcrud-row:nth-child(2) > td:nth-child(6)")]
+       // private IWebElement hardMaxUses;
+
+       // string CouponCode = "";
 
         //Coupons Page constructor
         public CouponsPage(IWebDriver driver) : base(driver)
         {
             this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
         }
 
         //Starting methods for coupons actions.
-        private void WaitforCouponsPage()
-        {
-            wait.Until(ExpectedConditions.ElementToBeClickable(AddButton));
-        }
 
         private void ClickAddButton()
         {
+            WebDriverUtils.WaitForElementToBeVisible(driver, ".//button[@class='btn btn-success']");
+            WebDriverUtils.WaitForElementToBeClickable(driver, AddButton);
+
             AddButton.Click();
         }
 
         private void TypePercentageValue(string percentage)
         {
-            System.Threading.Thread.Sleep(3000);
-            percentageField.Clear();
-            percentageField.SendKeys(percentage);
-        }
-        private void SubmitCoupon()
-        {
-            Thread.Sleep(3000);
-            wait.Until(ExpectedConditions.ElementToBeClickable(SubmitButton));
-            SubmitButton.Click();
-        }
-        private void FillCoupon(string percentage)
-        {
+            WebDriverUtils.WaitForElementToBeVisible(driver, ".//form[@id='addcoupon']//input[@id='rate' and @placeholder='Percentage']");
+            WebDriverUtils.WaitForElementToBeClickable(driver,ACPercentageField);
 
-            TypePercentageValue(percentage);
-            wait.Until(ExpectedConditions.ElementToBeClickable(GenerateButton));
+            ACPercentageField.Clear();
+            ACPercentageField.SendKeys(percentage);
+            //CouponCode = percentage.ToString();
+        }
+        private void ClickSubmitCoupon()
+        {
+            WebDriverUtils.WaitForElementToBeVisible(driver, ".//div[@class='modal-footer']/button[@id='#']");
+            WebDriverUtils.WaitForElementToBeClickable(driver, SubmitButton);
+
+            SubmitButton.Click();
+            Thread.Sleep(3000);
+        }
+
+        private void ClickGenerateButton()
+        {
+            WebDriverUtils.WaitForElementToBeVisible(driver, ".//form[@id='addcoupon']//button[@id='add']");
+            WebDriverUtils.WaitForElementToBeClickable(driver, GenerateButton);
+
             GenerateButton.Click();
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
+        }
+
+        private void TypeCodeCouponValue(string codecoupon)
+        {
+            WebDriverUtils.WaitForElementToBeVisible(driver, ".//input[@id='codeadd' and @placeholder='Coupon Code']");
+            WebDriverUtils.WaitForElementToBeClickable(driver, ACCouponCodeField);
+
+            ACCouponCodeField.Clear();
+            ACCouponCodeField.SendKeys(codecoupon);
+        }
+        private string FillCouponByPercentageAndGenericCode(string percentage)
+        {
+            TypePercentageValue(percentage);
+            ClickGenerateButton();
+
+            WebDriverUtils.WaitForElementToBeClickable(driver,ACCouponCodeField);
+
+            return ACCouponCodeField.Text;
+        }
+
+        private void FillCouponByPercentageAndDefinedCode(string percentage, string codevalue)
+        {
+            TypePercentageValue(percentage);
+            TypeCodeCouponValue(codevalue);
+            WebDriverUtils.WaitForTextToBePresentInElement(driver, CouponCodeField, codevalue);
         }
 
         private void ClickDeleteButton()
         {
-            Thread.Sleep(3000);
-            //wait.Until(ExpectedConditions.ElementToBeClickable(DeleteButton));
+            WebDriverUtils.WaitForElementToBeVisible(driver,".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[3]/i");
+            WebDriverUtils.WaitForElementToBeClickable(driver,DeleteButton);
+
+            Thread.Sleep(2000);
             DeleteButton.Click();
         }
 
         private void ConfirmDeleteCoupon()
         {
-            wait.Until(ExpectedConditions.AlertIsPresent());
+            WebDriverUtils.WaitForAlertIsPresent(driver);
             IAlert alert = driver.SwitchTo().Alert();
+
             alert.Accept();
             driver.SwitchTo().DefaultContent();
         }
 
-        private void ClickUpdateButton()
+        private void ClickEditButton()
         {
-            //wait.Until(ExpectedConditions.ElementToBeClickable(UpdateButton));
-            System.Threading.Thread.Sleep(3000);
-            UpdateButton.Click();
+            Thread.Sleep(2000);
+            WebDriverUtils.WaitForElementToBeVisible(driver,".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[1]/i");
+            WebDriverUtils.WaitForElementToBeClickable(driver,EditButton);
+
+            EditButton.Click();
+            Thread.Sleep(2000);
         }
 
         private void TypeMaxUsesVal(string MaxUses)
         {
-            string number = CouponNumber.Text;
-            string Xpath = "#editcoupon"+number+"> div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > input:nth-child(1)";
-            //[FindsBy(How = How.CssSelector, Using = )]
-            IWebElement MaxUsesField = driver.FindElement(By.CssSelector(Xpath)) ;
-            //wait.Until(ExpectedConditions.ElementIsVisible(MaxUsesField));
-            System.Threading.Thread.Sleep(3000);
+            string number = CouponId.Text;
+            string Xpath = ".//form[contains(@id,'"+number+"')]//input[@placeholder='Maximum Uses']";
+            IWebElement MaxUsesField = driver.FindElement(By.XPath(Xpath));
+
+            WebDriverUtils.WaitForElementToBeVisible(driver, Xpath);
+            WebDriverUtils.WaitForElementToBeClickable(driver, MaxUsesField);
+
             MaxUsesField.Clear();
             MaxUsesField.SendKeys(MaxUses);
         }
 
-        private void ClickEditCoupon()
+        private void ClickUpdateButton()
         {
-            string number = CouponNumber.Text;
-            string Xpath = "//div[@id='editCop"+number+"']/div[2]/div[1]/div[4]/button[@id="+number+"]";
-            IWebElement EditButton = driver.FindElement(By.XPath(Xpath));
-            wait.Until(ExpectedConditions.ElementToBeClickable(EditButton));
-            EditButton.Click();
+            string number = CouponId.Text;
+            string Xpath = ".//div[@id='editCop"+number+"']//button[@id="+number+"]";
+            IWebElement UpdateButton = driver.FindElement(By.XPath(Xpath));
+
+            WebDriverUtils.WaitForElementToBeVisible(driver, Xpath);
+            WebDriverUtils.WaitForElementToBeClickable(driver, UpdateButton);
+
+            UpdateButton.Click();
+            Thread.Sleep(3000);
         }
 
         private void ClickSearchButton()
-        {
-            Thread.Sleep(3000);
-            wait.Until(ExpectedConditions.ElementToBeClickable(SearchButton));
+        { 
+            WebDriverUtils.WaitForElementToBeVisible(driver, ".//a[@class='xcrud-search-toggle btn btn-default']");
+            WebDriverUtils.WaitForElementToBeClickable(driver, SearchButton);
+
             SearchButton.Click();
         }
 
         private void TypeSearchValue(string Value)
         {
 
-            wait.Until(ExpectedConditions.ElementToBeClickable(SearchField));
+            WebDriverUtils.WaitForElementToBeClickable(driver,SearchField);
             SearchField.SendKeys(Value);
         }
 
         private void ClickGoButton()
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(GoButton));
+            WebDriverUtils.WaitForElementToBeClickable(driver,GoButton);
             GoButton.Click();
         }
 
-        private void ValidateCoupon(string percentage)
-        {
-            Thread.Sleep(3000);
-            string values = NewCoupon.Text;
-            NUnit.Framework.Assert.IsTrue(values == percentage);
-        }
-
-        private void ValidateEditMaxUses(string MaxUses)
-        {
-            Thread.Sleep(4000);
-            string values = EditMaxUses.Text;
-            NUnit.Framework.Assert.IsTrue(values == MaxUses);
-        }
-
-        private void ValidateDeletedCoupon(string deletevalue)
-        {
-            bool exists = false;
-            exists = CouponNumber.Displayed.Equals(deletevalue);
-            NUnit.Framework.Assert.IsFalse(exists);
-        }
         private void SearchCoupon(string Value)
         {
-            WaitforCouponsPage();
             ClickSearchButton();
             TypeSearchValue(Value);
             ClickGoButton();
@@ -196,67 +236,83 @@ namespace PHPTravelsTest.POM
 
         private void ClickPrintButton()
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(PrintButton));
+            WebDriverUtils.WaitForElementToBeClickable(driver,PrintButton);
             PrintButton.Click();
         }
 
         private void CancelPrintCoupon()
         {
-            driver.SwitchTo().ActiveElement();
+            string xpath = "//div[@id='print-header']/div/button[2]";
+            IWebElement print = driver.SwitchTo().ActiveElement();
+            print.Click();
             driver.SwitchTo().DefaultContent();
         }
 
-        public void AddCoupon(string percentage)
+        public void AddCouponWithGenericCode(string percentage)
         {
-            WaitforCouponsPage();
+
             ClickAddButton();
-            FillCoupon(percentage);
-            SubmitCoupon();
-            SearchAndVerifyCoupon(percentage);
+            FillCouponByPercentageAndGenericCode(percentage);
+            ClickSubmitCoupon();
+            SearchCoupon(percentage);
+            CouponsPageValidations.ValidateCouponbyPercentage(PercentageField,NoFoundElementsField,percentage);
+            //SearchAndVerifyCoupon(percentage);
+        }
+
+        public void AddCouponWithDefinedCode(string percentage, string codevalue)
+        {
+            ClickAddButton();
+            FillCouponByPercentageAndDefinedCode(percentage, codevalue);
+            ClickSubmitCoupon();
+            SearchCoupon(codevalue);
+            CouponsPageValidations.ValidateCouponbyPercentage(PercentageField, NoFoundElementsField, percentage);
+            CouponsPageValidations.ValidateCouponbyCouponCode(CouponCodeField,NoFoundElementsField, codevalue);
         }
 
         public void DeleteCoupon(string value)
         {
-            string deletevalue = CouponNumber.Text;
+            string deletevalue; 
 
-            WaitforCouponsPage();
             SearchCoupon(value);
+            deletevalue = CouponId.Text;
             ClickDeleteButton();
-            //SearchCoupon(value);
             ConfirmDeleteCoupon();
-            ValidateDeletedCoupon(deletevalue);
+           CouponsPageValidations.ValidateDeletedCoupon(NoFoundElementsField,CouponId, deletevalue);
         }
 
-        public void EditCoupon(string MaxUses, string id)
+        public void EditCouponOnMaxUseValue(string MaxUses, string id)
         {
-            WaitforCouponsPage();
             SearchCoupon(id);
-            ClickUpdateButton();
+            ClickEditButton();
             TypeMaxUsesVal(MaxUses);
-            ClickEditCoupon();
+            ClickUpdateButton();
             SearchCoupon(id);
-            ValidateEditMaxUses(MaxUses);
+            CouponsPageValidations.ValidateCouponByMaxUses(MaxUsesField,NoFoundElementsField,MaxUses);
         }
 
 
         public void SearchAndVerifyCoupon(string Value)
         {
-            WaitforCouponsPage();
             ClickSearchButton();
             TypeSearchValue(Value);
             ClickGoButton();
-            ValidateCoupon(Value);
+            CouponsPageValidations.ValidateSearchField(CouponCodeField, PercentageField, MaxUsesField, NoFoundElementsField, Value);
         }
 
         public void VerifyMaxUsesModification(string MaxUses)
         {
-            WaitforCouponsPage();
+
+            //WaitforCouponsPage();
             NUnit.Framework.Assert.AreEqual(MaxUses, hardMaxUses.Text);
+            //IWebElement table = driver.FindElement(By.ClassName("xcrud-list table table-striped table-hover"));
+            //IWebElement row = table.FindElement(By.ClassName("xcrud-row xcrud-row-0"));
+            //IReadOnlyCollection<IWebElement> cells = row.FindElements(By.XPath("./*"));
+
+            //NUnit.Framework.Assert.AreEqual(MaxUses, hardMaxUses.Text);
         }
 
         public void PrintCoupons()
         {
-            WaitforCouponsPage();
             ClickPrintButton();
             CancelPrintCoupon();
             //ClosePrintWindow);
