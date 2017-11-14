@@ -171,5 +171,17 @@ namespace PHPTravelsTest.POM.Validations
 
             return failed;
         }
+
+        public static void ValidateIfURLIsCorrect(IWebDriver driver, string url)
+        {
+            try
+            {
+                Assert.IsTrue(driver.Url.Contains(url));
+            }
+            catch(Exception e)
+            {
+                Console.Write("URL is not correct. Message: {0}", e.Message);
+            }
+        }
     }
 }

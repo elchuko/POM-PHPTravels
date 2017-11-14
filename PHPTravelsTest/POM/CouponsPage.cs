@@ -240,12 +240,20 @@ namespace PHPTravelsTest.POM
             PrintButton.Click();
         }
 
-        private void CancelPrintCoupon()
+        private void ClosePrintCoupon()
         {
-            //string xpath = "//div[@id='print-header']/div/button[2]";
-            IWebElement print = driver.SwitchTo().ActiveElement();
-            print.Click();
-            driver.SwitchTo().DefaultContent();
+            string ParentWindow = driver.CurrentWindowHandle;
+            ClickPrintButton();
+
+            foreach(string window in driver.WindowHandles)
+            {
+                driver.SwitchTo().Window(window);
+            }
+            CouponsPageValidations.ValidateIfURLIsCorrect(driver,"xcrud");
+
+            driver.Close();
+            driver.SwitchTo().Window(ParentWindow);
+            CouponsPageValidations.ValidateIfURLIsCorrect(driver, "coupons");
         }
 
         public void AddCouponWithGenericCode(string percentage)
@@ -256,7 +264,6 @@ namespace PHPTravelsTest.POM
             ClickSubmitCoupon();
             SearchCoupon(percentage);
             CouponsPageValidations.ValidateCouponbyPercentage(PercentageField,NoFoundElementsField,percentage);
-            //SearchAndVerifyCoupon(percentage);
         }
 
         public void AddCouponWithDefinedCode(string percentage, string codevalue)
@@ -299,22 +306,9 @@ namespace PHPTravelsTest.POM
             CouponsPageValidations.ValidateSearchField(CouponCodeField, PercentageField, MaxUsesField, NoFoundElementsField, Value);
         }
 
-        public void VerifyMaxUsesModification(string MaxUses)
-        {
-
-            //WaitforCouponsPage();
-            NUnit.Framework.Assert.AreEqual(MaxUses, hardMaxUses.Text);
-            //IWebElement table = driver.FindElement(By.ClassName("xcrud-list table table-striped table-hover"));
-            //IWebElement row = table.FindElement(By.ClassName("xcrud-row xcrud-row-0"));
-            //IReadOnlyCollection<IWebElement> cells = row.FindElements(By.XPath("./*"));
-
-            //NUnit.Framework.Assert.AreEqual(MaxUses, hardMaxUses.Text);
-        }
         public void PrintCoupons()
         {
-            ClickPrintButton();
-            CancelPrintCoupon();
-            //ClosePrintWindow);
+            ClosePrintCoupon();
         }
     }
 }
