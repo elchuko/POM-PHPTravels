@@ -55,7 +55,7 @@ namespace PHPTravelsTest
 
         public void GoToCarsMenu()
         {
-            
+            WebDriverUtils.WaitForElementToBeVisible(driver, "//*[@id='social-sidebar-menu']/li[6]/a");
             menuCars.Click();
 
         }
@@ -63,7 +63,7 @@ namespace PHPTravelsTest
         public void GoToCarsInsideCarsMenu()
         {
             GoToCarsMenu();
-            
+            WebDriverUtils.WaitForElementToBeVisible(driver, "//*[@id='Cars']/li[1]/a");
             carsInsideCars.Click();
         }
 
