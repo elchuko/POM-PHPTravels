@@ -35,5 +35,17 @@ namespace PHPTravelsTest.Utils
             wait.Until(ExpectedConditions.AlertIsPresent());
         }
 
+        public static Boolean WaitForInsifibilityofElementLocated(IWebDriver driver, string Xpath)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            return wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath(Xpath)));
+        }
+
+        public static void WaitForElementExist(IWebDriver driver, string Xpath)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementExists(By.XPath(Xpath)));
+        }
+
     }
 }
