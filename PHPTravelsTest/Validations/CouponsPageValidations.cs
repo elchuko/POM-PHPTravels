@@ -120,6 +120,7 @@ namespace PHPTravelsTest.POM.Validations
                 }
                 else
                 {
+                    Thread.Sleep(3000);
                     if (PercentageField.Text == value)
                     {
                         failed = true;
