@@ -238,7 +238,7 @@ namespace PHPTravelsTest.POM
 
         private void CancelPrintCoupon()
         {
-            string xpath = "//div[@id='print-header']/div/button[2]";
+            //string xpath = "//div[@id='print-header']/div/button[2]";
             IWebElement print = driver.SwitchTo().ActiveElement();
             print.Click();
             driver.SwitchTo().DefaultContent();
@@ -267,9 +267,9 @@ namespace PHPTravelsTest.POM
 
         public void DeleteCoupon(string value)
         {
-            string deletevalue; 
+            string deletevalue;
 
-            SearchCoupon(value);
+            SearchAndVerifyCoupon(value);
             deletevalue = CouponId.Text;
             ClickDeleteButton();
             ConfirmDeleteCoupon();
@@ -278,7 +278,7 @@ namespace PHPTravelsTest.POM
 
         public void EditCouponOnMaxUseValue(string MaxUses, string id)
         {
-            SearchCoupon(id);
+            SearchAndVerifyCoupon(id);
             ClickEditButton();
             TypeMaxUsesVal(MaxUses);
             ClickUpdateButton();
@@ -293,15 +293,6 @@ namespace PHPTravelsTest.POM
             TypeSearchValue(Value);
             ClickGoButton();
             CouponsPageValidations.ValidateSearchField(CouponCodeField, PercentageField, MaxUsesField, NoFoundElementsField, Value);
-        }
-
-        public void VerifyMaxUsesModification(string MaxUses)
-        {
-            //IWebElement table = driver.FindElement(By.ClassName("xcrud-list table table-striped table-hover"));
-            //IWebElement row = table.FindElement(By.ClassName("xcrud-row xcrud-row-0"));
-            //IReadOnlyCollection<IWebElement> cells = row.FindElements(By.XPath("./*"));
-
-            //NUnit.Framework.Assert.AreEqual(MaxUses, hardMaxUses.Text);
         }
 
         public void PrintCoupons()

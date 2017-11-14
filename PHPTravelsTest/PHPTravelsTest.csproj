@@ -64,7 +64,7 @@
     <Compile Include="POM\DashBoard.cs" />
     <Compile Include="POM\LoginPage.cs" />
     <Compile Include="POM\Validate.cs" />
-    <Compile Include="POM\Validations\CouponsPageValidations.cs" />
+    <Compile Include="Validations\CouponsPageValidations.cs" />
     <Compile Include="Tests\LoginTest.cs" />
     <Compile Include="POM\MyProfilePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

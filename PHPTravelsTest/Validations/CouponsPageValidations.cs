@@ -1,12 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace PHPTravelsTest.POM.Validations
 {
@@ -22,7 +17,7 @@ namespace PHPTravelsTest.POM.Validations
             bool exists = false;
 
             Thread.Sleep(2000);
-            if (NoFoundElementsField.Displayed == true)
+            if (ValidateIfNoElementsFoundExist(NoFoundElementsField) == false)
             {
                 exists = false;
             }
@@ -37,7 +32,7 @@ namespace PHPTravelsTest.POM.Validations
             }
             catch(Exception e)
             {
-                Console.Write("Element was not Delete successfully", e.Message);
+                Console.Write("Element was not Deleted successfully", e.Message);
             }
             
         }
@@ -48,7 +43,7 @@ namespace PHPTravelsTest.POM.Validations
 
             Thread.Sleep(2000);
 
-            if (ValidateNoElementsFound(NoFoundElementsField) == true)
+            if (ValidateIfNoElementsFoundExist(NoFoundElementsField) == true)
             {
                 value1 = PercentageField.Text;
 
@@ -58,7 +53,7 @@ namespace PHPTravelsTest.POM.Validations
                 }
                 catch(Exception e)
                 {
-                    Console.Write("Percentage field is not displayed correctly.., Message:{0}", e.Message);
+                    Console.Write("Percentage field is not displayed correctly., Message:{0}", e.Message);
                     throw;
                 }
             }
@@ -72,7 +67,7 @@ namespace PHPTravelsTest.POM.Validations
 
             Thread.Sleep(2000);
 
-            if (ValidateNoElementsFound(NoFoundElementsField) == true)
+            if (ValidateIfNoElementsFoundExist(NoFoundElementsField) == true)
             {
                 value1 = CouponCodeField.Text;
 
@@ -82,7 +77,7 @@ namespace PHPTravelsTest.POM.Validations
                 }
                 catch(Exception e)
                 {
-                    Console.Write("Coupon Code field is not displayed correctly.., Message:{0}", e.Message);
+                    Console.Write("Coupon Code field is not displayed correctly., Message:{0}", e.Message);
                     throw;
                 }
             }
@@ -96,7 +91,7 @@ namespace PHPTravelsTest.POM.Validations
 
             Thread.Sleep(2000);
 
-            if (ValidateNoElementsFound(NoFoundElementsField) == true)
+            if (ValidateIfNoElementsFoundExist(NoFoundElementsField) == true)
             {
                 values = MaxUsesField.Text;
                 try
@@ -105,7 +100,7 @@ namespace PHPTravelsTest.POM.Validations
                 }
                 catch (Exception e)
                 {
-                    Console.Write("Max Uses field is not displayed correctly.., Message:{0}", e.Message);
+                    Console.Write("Max Uses field is not displayed correctly., Message:{0}", e.Message);
                     throw;
                 }
             }
@@ -115,9 +110,9 @@ namespace PHPTravelsTest.POM.Validations
 
         public static void ValidateSearchField(IWebElement CouponCodeField, IWebElement PercentageField, IWebElement MaxUsesField, IWebElement NoFoundElement, string value)
         {
-            bool failed = ValidateNoElementsFound(NoFoundElement);
+            bool failed = false;
 
-           if(failed==true)
+           if(ValidateIfNoElementsFoundExist(NoFoundElement) == true)
             {
                 if (CouponCodeField.Text == value)
                 {
@@ -141,6 +136,10 @@ namespace PHPTravelsTest.POM.Validations
 
                 }
             }
+           else
+            {
+                failed = false;
+            }
 
             try
             {
@@ -148,23 +147,23 @@ namespace PHPTravelsTest.POM.Validations
             }
             catch(Exception e)
             {
-                Console.Write("No Elements compatible were found.., Message:{0}",e.Message);
+                Console.Write("No elements were found for the given value to serch., Message:{0}",e.Message);
                 throw;
             }
         }
 
-        public static bool ValidateNoElementsFound(IWebElement NoFoundElement)
+        public static bool ValidateIfNoElementsFoundExist(IWebElement NoFoundElement)
         {
             bool failed = false;
 
             try
             {
-                if (NoFoundElement.Enabled == true)
+                if (NoFoundElement.Displayed == true)
                 {
                     failed = false;
                 }
             }
-            catch (FieldAccessException)
+            catch (Exception)
             {
                 failed = true;
             }
