@@ -5,6 +5,7 @@ using OpenQA.Selenium.Chrome;
 using PHPTravelsTest.POM;
 using System.Threading;
 using PHPTravelsTest.WebFactoryMethod;
+using PHPTravelsTest.POM.Validations;
 
 namespace PHPTravelsTest
 {
@@ -27,7 +28,7 @@ namespace PHPTravelsTest
 
 
         [TestMethod]
-         public void CreateNewCouponwithMandatoryValues()
+         public void TC27_Coupons_AddedCouponSuccessfully()
          {
              string username = "admin@phptravels.com";
              string password = "demoadmin";
@@ -40,16 +41,19 @@ namespace PHPTravelsTest
              dashboard.goToCouponsPage();
 
              CouponsPage coupons = new CouponsPage(driver);
+
              coupons.AddCouponWithGenericCode(percentage);
+             CouponsPageValidations.ValidateCouponbyPercentage(driver, percentage);
+
              Thread.Sleep(1000);
          }
 
         [TestMethod]
-        public void DeletetheFirstCouponAvailable()
+        public void TC28_Coupons_RemovedCouponSuccessfully()
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";
-            string Value = "50.00";
+            string valuetodelete = "50.00";
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);
@@ -58,12 +62,18 @@ namespace PHPTravelsTest
             dashboard.goToCouponsPage();
 
             CouponsPage coupons = new CouponsPage(driver);
-            coupons.DeleteCoupon(Value);
+
+            coupons.SearchCoupon(valuetodelete);
+            CouponsPageValidations.ValidateSearchField(driver,valuetodelete);
+
+            coupons.DeleteCoupon(valuetodelete);
+            CouponsPageValidations.ValidateDeletedCoupon(driver,valuetodelete);
+
             Thread.Sleep(1000);
         }
 
         [TestMethod]
-        public void UpdateMaxUsesFieldOfFirstElement()
+        public void TC30_Coupons_EditedCouponSuccessfully()
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";
@@ -77,13 +87,20 @@ namespace PHPTravelsTest
             dashboard.goToCouponsPage();
 
             CouponsPage coupons = new CouponsPage(driver);
-            coupons.EditCouponOnMaxUseValue(MaxUses,Id);
+
+            coupons.SearchCoupon(Id);
+            CouponsPageValidations.ValidateSearchField(driver,Id);
+
+            coupons.EditCouponOnMaxUseValue(MaxUses);
+
+            coupons.SearchCoupon(Id);
+            CouponsPageValidations.ValidateCouponByMaxUses(driver,MaxUses);
             Thread.Sleep(1000);
 
         }
 
         [TestMethod]
-        public void SearchCoupon()
+        public void TC31_Coupon_SearchedCouponSuccessfully()
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";
@@ -96,15 +113,19 @@ namespace PHPTravelsTest
             dashboard.goToCouponsPage();
 
             CouponsPage coupons = new CouponsPage(driver);
-            coupons.SearchAndVerifyCoupon(Value);
+            coupons.SearchCoupon(Value);
+            CouponsPageValidations.ValidateSearchField(driver,Value);
             Thread.Sleep(1000);
         }
 
         [TestMethod]
-        public void PrintCoupons()
+        public void TC32_Coupon_PrintedCouponSuccessfully()
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";
+            string ParentWindow;
+            string printpage = "xcrud";
+            string mainpage = "coupons";
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage.FillLogin(username, password);
@@ -113,7 +134,12 @@ namespace PHPTravelsTest
             dashboard.goToCouponsPage();
 
             CouponsPage coupons = new CouponsPage(driver);
-            coupons.PrintCoupons();
+
+            ParentWindow = coupons.OpenPrintWindow();
+            CouponsPageValidations.ValidateIfURLIsCorrect(driver, printpage);
+
+            coupons.ClosePrintWindow(ParentWindow);
+            CouponsPageValidations.ValidateIfURLIsCorrect(driver, mainpage);
             Thread.Sleep(1000);
         }
 

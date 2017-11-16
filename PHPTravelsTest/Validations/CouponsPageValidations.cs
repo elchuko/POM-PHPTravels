@@ -1,29 +1,30 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
+using PHPTravelsTest.Utils;
 using System;
 using System.Threading;
 
 namespace PHPTravelsTest.POM.Validations
 {
-    class CouponsPageValidations
+    static class CouponsPageValidations
     {
-        private CouponsPageValidations()
+        public static void ValidateDeletedCoupon(IWebDriver driver, string deletevalue)
         {
+            //Initialize my CouponsPage POM
+            CouponsPage CouponsPage = new CouponsPage(driver);
 
-        }
-
-        public static void ValidateDeletedCoupon(IWebElement NoFoundElementsField, IWebElement CouponId, string deletevalue)
-        {
+            //Initialize variables
             bool exists = false;
 
             Thread.Sleep(2000);
-            if (ValidateIfNoElementsFoundExist(NoFoundElementsField) == false)
+            if (ValidateIfNoElementsFoundExist(CouponsPage.NoFoundElementsField) == false)
             {
                 exists = false;
             }
             else
             {
-                exists = CouponId.Displayed.Equals(deletevalue);
+                exists = CouponsPage.CouponId.Displayed.Equals(deletevalue);
             }
 
             try
@@ -37,19 +38,21 @@ namespace PHPTravelsTest.POM.Validations
             
         }
 
-        public static void ValidateCouponbyPercentage(IWebElement PercentageField, IWebElement NoFoundElementsField, string percentage)
+        public static void ValidateCouponbyPercentage(IWebDriver driver, string percentage)
         {
-            string value1;
+            //Initialize my CouponsPage POM
+            CouponsPage CouponsPage = new CouponsPage(driver);
+
+            //Initialize variables
+            string CouponPercentage = WebDriverUtils.GetElementText(CouponsPage.PercentageField);
 
             Thread.Sleep(2000);
 
-            if (ValidateIfNoElementsFoundExist(NoFoundElementsField) == true)
+            if (ValidateIfNoElementsFoundExist(CouponsPage.NoFoundElementsField) == true)
             {
-                value1 = PercentageField.Text;
-
                 try
                 {
-                    Assert.IsTrue(value1 == percentage);
+                    Assert.IsTrue(CouponPercentage == percentage);
                 }
                 catch(Exception e)
                 {
@@ -61,19 +64,21 @@ namespace PHPTravelsTest.POM.Validations
             
         }
 
-        public static void ValidateCouponbyCouponCode(IWebElement CouponCodeField, IWebElement NoFoundElementsField, string CouponCode)
+        public static void ValidateCouponbyCouponCode(IWebDriver driver, string CouponCode)
         {
-            string value1;
+            //Initialize my CouponsPage POM
+            CouponsPage CouponsPage = new CouponsPage(driver);
+
+            //Initialize variables
+            string CouponCodeval = WebDriverUtils.GetElementText(CouponsPage.CouponCodeField);
 
             Thread.Sleep(2000);
 
-            if (ValidateIfNoElementsFoundExist(NoFoundElementsField) == true)
+            if (ValidateIfNoElementsFoundExist(CouponsPage.NoFoundElementsField) == true)
             {
-                value1 = CouponCodeField.Text;
-
                 try
                 {
-                    Assert.IsTrue(value1 == CouponCode);
+                    Assert.IsTrue(CouponCodeval == CouponCode);
                 }
                 catch(Exception e)
                 {
@@ -85,15 +90,20 @@ namespace PHPTravelsTest.POM.Validations
             
         }
 
-        public static void ValidateCouponByMaxUses(IWebElement MaxUsesField, IWebElement NoFoundElementsField, string MaxUses)
+        public static void ValidateCouponByMaxUses(IWebDriver driver, string MaxUses)
         {
+            //Initialize my CouponsPage POM
+            CouponsPage CouponsPage = new CouponsPage(driver);
+
+            //Initialize variables
+            string CouponMaxUses = WebDriverUtils.GetElementText(CouponsPage.MaxUsesField);
             string values;
 
             Thread.Sleep(2000);
 
-            if (ValidateIfNoElementsFoundExist(NoFoundElementsField) == true)
+            if (ValidateIfNoElementsFoundExist(CouponsPage.NoFoundElementsField) == true)
             {
-                values = MaxUsesField.Text;
+                values = CouponMaxUses;
                 try
                 {
                     Assert.IsTrue(values == MaxUses);
@@ -108,26 +118,32 @@ namespace PHPTravelsTest.POM.Validations
             
         }
 
-        public static void ValidateSearchField(IWebElement CouponCodeField, IWebElement PercentageField, IWebElement MaxUsesField, IWebElement NoFoundElement, string value)
-        {
-            bool failed = false;
+        public static void ValidateSearchField(IWebDriver driver, string value)
+        {   //Initialize my CouponsPage POM
+            CouponsPage CouponsPage = new CouponsPage(driver);
 
-           if(ValidateIfNoElementsFoundExist(NoFoundElement) == true)
+            //Initialize variables
+            bool failed = false;
+            string CouponCode = WebDriverUtils.GetElementText(CouponsPage.CouponCodeField);
+            string CouponPercentage = WebDriverUtils.GetElementText(CouponsPage.PercentageField);
+            string CouponMaxUses = WebDriverUtils.GetElementText(CouponsPage.MaxUsesField);
+
+            if (ValidateIfNoElementsFoundExist(CouponsPage.NoFoundElementsField) == true)
             {
-                if (CouponCodeField.Text == value)
+                if (CouponCode == value)
                 {
                     failed = true;
                 }
                 else
                 {
                     Thread.Sleep(3000);
-                    if (PercentageField.Text == value)
+                    if (CouponPercentage == value)
                     {
                         failed = true;
                     }
                     else
                     {
-                        if (MaxUsesField.Text == value)
+                        if (CouponMaxUses == value)
                         {
                             failed = true;
                         }
@@ -153,13 +169,14 @@ namespace PHPTravelsTest.POM.Validations
             }
         }
 
-        public static bool ValidateIfNoElementsFoundExist(IWebElement NoFoundElement)
+        public static bool ValidateIfNoElementsFoundExist(IWebElement NoFoundElementsField)
         {
+            //Initializa variables
             bool failed = false;
 
             try
             {
-                if (NoFoundElement.Displayed == true)
+                if (NoFoundElementsField.Displayed == true)
                 {
                     failed = false;
                 }
