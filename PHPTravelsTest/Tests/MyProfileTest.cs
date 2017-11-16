@@ -30,12 +30,6 @@ namespace PHPTravelsTest
         [SetUp]
         public void SetUp()
         {
-            WebFactory webFactory = new WebFactory();
-            driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
-            driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
-            driver.Manage().Window.Maximize();
-
-            //Setup values
             KeyWords.Add("firstname", "Eusebio");
             KeyWords.Add("lastname", null);
             KeyWords.Add("mail", null);
@@ -43,8 +37,22 @@ namespace PHPTravelsTest
             KeyWords.Add("country", null);
             KeyWords.Add("address1", null);
             KeyWords.Add("address2", null);
-            KeyWords.Add("username","admin@phptravels.com");
+            KeyWords.Add("username", "admin@phptravels.com");
             KeyWords.Add("password", "demoadmin");
+
+            var username = KeyWords["username"];
+            var password = KeyWords["password"];
+           
+
+            WebFactory webFactory = new WebFactory();
+            driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
+            driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
+            driver.Manage().Window.Maximize();
+            LoginPage loginPage = new LoginPage(driver);
+            loginPage.FillLogin(username, password);
+
+            //Setup values
+            
         }
 
 
@@ -52,8 +60,6 @@ namespace PHPTravelsTest
         public void MyProfileTestCase()
         {
 
-            var username = KeyWords["username"];
-            var password = KeyWords["password"];
             var firstname = KeyWords["firstname"];
             var lastname = KeyWords["lastname"];
             var mail = KeyWords["mail"];
@@ -62,8 +68,7 @@ namespace PHPTravelsTest
             var address1 = KeyWords["address1"];
             var address2 = KeyWords["address2"];
 
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.FillLogin(username, password);
+
             DashBoard dashBoard = new DashBoard(driver);
             dashBoard.goMyProfile();
             MyProfilePage myProfile = new MyProfilePage(driver);

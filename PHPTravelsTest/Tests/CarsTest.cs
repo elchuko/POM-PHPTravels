@@ -14,6 +14,8 @@ namespace PHPTravelsTest.Tests
     public class CarsTest
     {
         private IWebDriver driver;
+        string username = "admin@phptravels.com";
+        string password = "demoadmin";
 
         [SetUp]
         public void SetUp()
@@ -22,6 +24,8 @@ namespace PHPTravelsTest.Tests
             driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
+            LoginPage loginPage = new LoginPage(driver);
+            loginPage.FillLogin(username, password);
 
         }
 
@@ -29,12 +33,10 @@ namespace PHPTravelsTest.Tests
         [Test]
         public void AddCarTest()
         {
-            string username = "admin@phptravels.com";
-            string password = "demoadmin";
+            
             string carName = "Ferrari";
 
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.FillLogin(username, password);
+           
             DashBoard dashBoard = new DashBoard(driver);
             dashBoard.GoCarsSubMenu();
             CarsPage carsPage = new CarsPage(driver);
