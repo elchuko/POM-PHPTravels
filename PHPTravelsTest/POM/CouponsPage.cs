@@ -119,15 +119,14 @@ namespace PHPTravelsTest.POM
             WebDriverUtils.WaitForElementToBeClickable(driver, GenerateButton);
 
             GenerateButton.Click();
-
-            //Thread.Sleep(3000);   
+ 
+            WebDriverUtils.WaitForElementHasText(driver);
         }
 
         private string ClickSubmitCoupon()
         {
             string CouponCode;
 
-            WebDriverUtils.WaitForElementHasText(driver);
             CouponCode = WebDriverUtils.GetInputText(ACCouponCodeField);
 
             WebDriverUtils.WaitForElementToBeVisible(driver, ".//div[@class='modal-footer']/button[@id='#']");
@@ -136,8 +135,6 @@ namespace PHPTravelsTest.POM
             SubmitButton.Click();
 
             WebDriverUtils.WaitForInvisibilityOfElementLocated(driver, "//*[@id='ADD_COUPON']");
-            //WebDriverUtils.WaitForInvisibilityOfElementLocated(driver, ".//div[@class='modal-content']");
-            //Thread.Sleep(3000);
             return CouponCode;
         }
 
