@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
 using PHPTravelsTest.Utils;
 
 namespace PHPTravelsTest
@@ -49,7 +48,6 @@ namespace PHPTravelsTest
         public void GoToCouponsPage()
         {
             WebDriverUtils.WaitForElementToBeClickable(driver,CouponsPage);
-            //wait.Until(ExpectedConditions.ElementToBeClickable(CouponsPage));
             CouponsPage.Click();
         }
 

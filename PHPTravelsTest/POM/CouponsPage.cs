@@ -11,7 +11,7 @@ using PHPTravelsTest.POM.Validations;
 
 namespace PHPTravelsTest.POM
 {
-    class CouponsPage : BasicPage
+    public class CouponsPage : BasicPage
     {
 
         //Initialize WebDriver(s)
@@ -54,6 +54,8 @@ namespace PHPTravelsTest.POM
 
         [FindsBy(How = How.XPath, Using = ".//tr[@class='xcrud-row']/td")]
         internal IWebElement NoFoundElementsField;
+
+        internal string TableFrameXpath = ".//table[@class='xcrud-list table table-striped table-hover']/tbody";
 
         //Coupon Codes Management Add Coupons window elements
         [FindsBy(How = How.XPath, Using = ".//form[@id='addcoupon']//input[@id='rate' and @placeholder='Percentage']")]
@@ -135,6 +137,7 @@ namespace PHPTravelsTest.POM
             SubmitButton.Click();
 
             WebDriverUtils.WaitForInvisibilityOfElementLocated(driver, "//*[@id='ADD_COUPON']");
+
             return CouponCode;
         }
 
@@ -160,7 +163,6 @@ namespace PHPTravelsTest.POM
             WebDriverUtils.WaitForElementToBeVisible(driver,".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[3]/i");
             WebDriverUtils.WaitForElementToBeClickable(driver,DeleteButton);
 
-            Thread.Sleep(2000);
             DeleteButton.Click();
         }
 
@@ -175,18 +177,18 @@ namespace PHPTravelsTest.POM
 
         private void ClickEditButton()
         {
-            Thread.Sleep(2000);
             WebDriverUtils.WaitForElementToBeVisible(driver,".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[1]/i");
             WebDriverUtils.WaitForElementToBeClickable(driver,EditButton);
 
             EditButton.Click();
-            Thread.Sleep(2000);
         }
 
         private void TypeMaxUsesVal(string MaxUses)
         {
             string number = CouponId.Text;
             string Xpath = ".//form[contains(@id,'"+number+"')]//input[@placeholder='Maximum Uses']";
+
+            WebDriverUtils.WaitForElementToBeVisible(driver, "//*[@id='editCop"+number+"']");
             IWebElement MaxUsesField = driver.FindElement(By.XPath(Xpath));
 
             WebDriverUtils.WaitForElementToBeVisible(driver, Xpath);
@@ -206,7 +208,7 @@ namespace PHPTravelsTest.POM
             WebDriverUtils.WaitForElementToBeClickable(driver, UpdateButton);
 
             UpdateButton.Click();
-            Thread.Sleep(3000);
+            WebDriverUtils.WaitForInvisibilityOfElementLocated(driver, "//*[@id='editCop" + number + "']");
         }
 
         private void ClickSearchButton()
@@ -216,12 +218,7 @@ namespace PHPTravelsTest.POM
 
             SearchButton.Click();
         }
-       /* public void goToCouponsPage()
-        {
-            LeftSideBanner banner = new LeftSideBanner(driver);
-            banner.GoToCouponsPage();
-            Thread.Sleep(3000);
-        }*/
+
         private void TypeSearchValue(string Value)
         {
 
@@ -255,7 +252,8 @@ namespace PHPTravelsTest.POM
             driver.SwitchTo().Window(ParentWindow);
         }
 
-        public void AddCouponWithGenericCode(string percentage)
+
+        public  string AddCouponWithGenericCode(string percentage)
         {
             string CodeValue;
 
@@ -263,30 +261,34 @@ namespace PHPTravelsTest.POM
             TypePercentageValue(percentage);
             ClickGenerateButton();
             CodeValue = ClickSubmitCoupon();
-            SearchCoupon(CodeValue);
+            return CodeValue;
         }
 
-        public void AddCouponWithDefinedCode(string percentage, string codevalue)
+        /*Not required so far.
+         * public void AddCouponWithDefinedCode(string percentage, string codevalue)
         {
             ClickAddButton();
             FillCouponByPercentageAndDefinedCode(percentage, codevalue);
             ClickSubmitCoupon();
             SearchCoupon(codevalue);
-            //CouponsPageValidations.ValidateCouponbyPercentage(percentage);
-            //CouponsPageValidations.ValidateCouponbyCouponCode(codevalue);
-        }
+            CouponsPageValidations.ValidateCouponbyPercentage(percentage);
+            CouponsPageValidations.ValidateCouponbyCouponCode(codevalue);
+        }*/
 
         public void DeleteCoupon(string value)
         {
-            string deletevalue;
 
-            deletevalue = CouponId.Text;
+            WebDriverUtils.WaitForElementToBeClickable(driver,AddButton);
+
             ClickDeleteButton();
             ConfirmDeleteCoupon();
+
         }
 
         public void EditCouponOnMaxUseValue(string MaxUses)
         {
+            WebDriverUtils.WaitForElementToBeClickable(driver, AddButton);
+
             ClickEditButton();
             TypeMaxUsesVal(MaxUses);
             ClickUpdateButton();
@@ -295,6 +297,8 @@ namespace PHPTravelsTest.POM
 
         public void SearchCoupon(string Value)
         {
+            WebDriverUtils.WaitForElementToBeClickable(driver, AddButton);
+
             ClickSearchButton();
             TypeSearchValue(Value);
             ClickGoButton();
@@ -302,9 +306,12 @@ namespace PHPTravelsTest.POM
 
         public String OpenPrintWindow()
         {
+            WebDriverUtils.WaitForElementToBeClickable(driver, AddButton);
+
             string ParentWindow = ClickPrintButton();
             return ParentWindow;
         }
+
         public void ClosePrintWindow(string ParentWindow)
         {
             ClosePrintCoupon(ParentWindow);

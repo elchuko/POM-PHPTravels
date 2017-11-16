@@ -17,13 +17,15 @@ namespace PHPTravelsTest.POM.Validations
             //Initialize variables
             bool exists = false;
 
-            Thread.Sleep(2000);
-            if (ValidateIfNoElementsFoundExist(CouponsPage.NoFoundElementsField) == false)
+            WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
+
+            if (ValidateIfNoElementsFoundExist(driver, CouponsPage.NoFoundElementsField) == false)
             {
                 exists = false;
             }
             else
             {
+                WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPage.CouponId);
                 exists = CouponsPage.CouponId.Displayed.Equals(deletevalue);
             }
 
@@ -43,13 +45,14 @@ namespace PHPTravelsTest.POM.Validations
             //Initialize my CouponsPage POM
             CouponsPage CouponsPage = new CouponsPage(driver);
 
-            //Initialize variables
-            string CouponPercentage = WebDriverUtils.GetElementText(CouponsPage.PercentageField);
+            WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
 
-            Thread.Sleep(2000);
-
-            if (ValidateIfNoElementsFoundExist(CouponsPage.NoFoundElementsField) == true)
+            if (ValidateIfNoElementsFoundExist(driver, CouponsPage.NoFoundElementsField) == true)
             {
+                //Initialize variables
+                WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPage.PercentageField);
+                string CouponPercentage = WebDriverUtils.GetElementText(CouponsPage.PercentageField);
+
                 try
                 {
                     Assert.IsTrue(CouponPercentage == percentage);
@@ -69,13 +72,14 @@ namespace PHPTravelsTest.POM.Validations
             //Initialize my CouponsPage POM
             CouponsPage CouponsPage = new CouponsPage(driver);
 
-            //Initialize variables
-            string CouponCodeval = WebDriverUtils.GetElementText(CouponsPage.CouponCodeField);
+            WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
 
-            Thread.Sleep(2000);
-
-            if (ValidateIfNoElementsFoundExist(CouponsPage.NoFoundElementsField) == true)
+            if (ValidateIfNoElementsFoundExist(driver, CouponsPage.NoFoundElementsField) == true)
             {
+                //Initialize variables
+                WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPage.CouponCodeField);
+                string CouponCodeval = WebDriverUtils.GetElementText(CouponsPage.CouponCodeField);
+
                 try
                 {
                     Assert.IsTrue(CouponCodeval == CouponCode);
@@ -96,17 +100,16 @@ namespace PHPTravelsTest.POM.Validations
             CouponsPage CouponsPage = new CouponsPage(driver);
 
             //Initialize variables
-            string CouponMaxUses = WebDriverUtils.GetElementText(CouponsPage.MaxUsesField);
-            string values;
+            WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
 
-            Thread.Sleep(2000);
-
-            if (ValidateIfNoElementsFoundExist(CouponsPage.NoFoundElementsField) == true)
+            if (ValidateIfNoElementsFoundExist(driver, CouponsPage.NoFoundElementsField) == true)
             {
-                values = CouponMaxUses;
+                WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPage.MaxUsesField);
+                string CouponMaxUses = WebDriverUtils.GetElementText(CouponsPage.MaxUsesField);
+
                 try
                 {
-                    Assert.IsTrue(values == MaxUses);
+                    Assert.IsTrue(CouponMaxUses == MaxUses);
                 }
                 catch (Exception e)
                 {
@@ -124,19 +127,23 @@ namespace PHPTravelsTest.POM.Validations
 
             //Initialize variables
             bool failed = false;
-            string CouponCode = WebDriverUtils.GetElementText(CouponsPage.CouponCodeField);
-            string CouponPercentage = WebDriverUtils.GetElementText(CouponsPage.PercentageField);
-            string CouponMaxUses = WebDriverUtils.GetElementText(CouponsPage.MaxUsesField);
 
-            if (ValidateIfNoElementsFoundExist(CouponsPage.NoFoundElementsField) == true)
+            WebDriverUtils.WaitForElementToBeVisible(driver,CouponsPage.TableFrameXpath);
+
+            if (ValidateIfNoElementsFoundExist(driver,CouponsPage.NoFoundElementsField) == true)
             {
+                WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPage.CouponCodeField);
+
+                string CouponCode = WebDriverUtils.GetElementText(CouponsPage.CouponCodeField);
+                string CouponPercentage = WebDriverUtils.GetElementText(CouponsPage.PercentageField);
+                string CouponMaxUses = WebDriverUtils.GetElementText(CouponsPage.MaxUsesField);
+
                 if (CouponCode == value)
                 {
                     failed = true;
                 }
                 else
                 {
-                    Thread.Sleep(3000);
                     if (CouponPercentage == value)
                     {
                         failed = true;
@@ -164,22 +171,20 @@ namespace PHPTravelsTest.POM.Validations
             }
             catch(Exception e)
             {
-                Console.Write("No elements were found for the given value to serch., Message:{0}",e.Message);
+                Console.Write("No elements were found for the given value to search., Message:{0}",e.Message);
                 throw;
             }
         }
 
-        public static bool ValidateIfNoElementsFoundExist(IWebElement NoFoundElementsField)
+        public static bool ValidateIfNoElementsFoundExist(IWebDriver driver, IWebElement NoFoundElementsField)
         {
             //Initializa variables
             bool failed = false;
 
             try
             {
-                if (NoFoundElementsField.Displayed == true)
-                {
-                    failed = false;
-                }
+                WebDriverUtils.WaitForNoFoundElementToBeClickable(driver, NoFoundElementsField);
+                failed = false;
             }
             catch (Exception)
             {

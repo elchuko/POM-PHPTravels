@@ -16,6 +16,8 @@ namespace PHPTravelsTest
     public class CouponsTest
     {
         private IWebDriver driver;
+        string username = "admin@phptravels.com";
+        string password = "demoadmin";
 
         [TestInitialize]
         public void SetUp()
@@ -24,25 +26,23 @@ namespace PHPTravelsTest
             driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
+            LoginPage loginPage = new LoginPage(driver);
+            loginPage.FillLogin(username, password);
         }
 
 
         [TestMethod]
          public void TC27_Coupons_AddedCouponSuccessfully()
          {
-             string username = "admin@phptravels.com";
-             string password = "demoadmin";
              string percentage = "50.00";
-
-             LoginPage loginPage = new LoginPage(driver);
-             loginPage.FillLogin(username, password);
 
              DashBoard dashboard = new DashBoard(driver);
              dashboard.goToCouponsPage();
 
-             CouponsPage coupons = new CouponsPage(driver);
+             CouponsPage coupons = dashboard.goToCouponsPage();
 
-             coupons.AddCouponWithGenericCode(percentage);
+             string CodeValue = coupons.AddCouponWithGenericCode(percentage);
+             coupons.SearchCoupon(CodeValue);
              CouponsPageValidations.ValidateCouponbyPercentage(driver, percentage);
 
              Thread.Sleep(1000);
@@ -51,17 +51,10 @@ namespace PHPTravelsTest
         [TestMethod]
         public void TC28_Coupons_RemovedCouponSuccessfully()
         {
-            string username = "admin@phptravels.com";
-            string password = "demoadmin";
             string valuetodelete = "50.00";
 
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.FillLogin(username, password);
-
             DashBoard dashboard = new DashBoard(driver);
-            dashboard.goToCouponsPage();
-
-            CouponsPage coupons = new CouponsPage(driver);
+            CouponsPage coupons = dashboard.goToCouponsPage();
 
             coupons.SearchCoupon(valuetodelete);
             CouponsPageValidations.ValidateSearchField(driver,valuetodelete);
@@ -75,18 +68,11 @@ namespace PHPTravelsTest
         [TestMethod]
         public void TC30_Coupons_EditedCouponSuccessfully()
         {
-            string username = "admin@phptravels.com";
-            string password = "demoadmin";
             string MaxUses = "20";
             string Id = "wWIw";
 
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.FillLogin(username, password);
-
             DashBoard dashboard = new DashBoard(driver);
-            dashboard.goToCouponsPage();
-
-            CouponsPage coupons = new CouponsPage(driver);
+            CouponsPage coupons = dashboard.goToCouponsPage();
 
             coupons.SearchCoupon(Id);
             CouponsPageValidations.ValidateSearchField(driver,Id);
@@ -102,17 +88,11 @@ namespace PHPTravelsTest
         [TestMethod]
         public void TC31_Coupon_SearchedCouponSuccessfully()
         {
-            string username = "admin@phptravels.com";
-            string password = "demoadmin";
             string Value = "10.00";
 
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.FillLogin(username, password);
-
             DashBoard dashboard = new DashBoard(driver);
-            dashboard.goToCouponsPage();
+            CouponsPage coupons = dashboard.goToCouponsPage();
 
-            CouponsPage coupons = new CouponsPage(driver);
             coupons.SearchCoupon(Value);
             CouponsPageValidations.ValidateSearchField(driver,Value);
             Thread.Sleep(1000);
@@ -121,19 +101,12 @@ namespace PHPTravelsTest
         [TestMethod]
         public void TC32_Coupon_PrintedCouponSuccessfully()
         {
-            string username = "admin@phptravels.com";
-            string password = "demoadmin";
             string ParentWindow;
             string printpage = "xcrud";
             string mainpage = "coupons";
 
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.FillLogin(username, password);
-
             DashBoard dashboard = new DashBoard(driver);
-            dashboard.goToCouponsPage();
-
-            CouponsPage coupons = new CouponsPage(driver);
+            CouponsPage coupons = dashboard.goToCouponsPage();
 
             ParentWindow = coupons.OpenPrintWindow();
             CouponsPageValidations.ValidateIfURLIsCorrect(driver, printpage);

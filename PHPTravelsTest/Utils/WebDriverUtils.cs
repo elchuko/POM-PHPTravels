@@ -15,7 +15,13 @@ namespace PHPTravelsTest.Utils
 
         public static void WaitForElementToBeClickable(IWebDriver driver, IWebElement webElement)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementToBeClickable(webElement));
+        }
+
+        public static void WaitForNoFoundElementToBeClickable(IWebDriver driver, IWebElement webElement)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
             wait.Until(ExpectedConditions.ElementToBeClickable(webElement));
         }
 

@@ -9,6 +9,7 @@ using System.Threading;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Support.PageObjects;
 using PHPTravelsTest.POM;
+using PHPTravelsTest.Utils;
 
 namespace PHPTravelsTest
 {
@@ -30,11 +31,12 @@ namespace PHPTravelsTest
             System.Threading.Thread.Sleep(3000);
         }
 
-        public void goToCouponsPage()
+        public CouponsPage goToCouponsPage()
         {
             LeftSideBanner banner = new LeftSideBanner(driver);
             banner.GoToCouponsPage();
-            Thread.Sleep(3000);
+
+            return new CouponsPage(driver);
         }
 
         public void GoCarsSubMenu()
