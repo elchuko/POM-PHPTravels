@@ -28,7 +28,7 @@ namespace PHPTravelsTest
 
 
         [Test]
-        public void LoginFirstTime()
+        public void TC01_Login_AdminLoginSuccessfully()
         {
             string username = "admin@phptravels.com";
             string password = "demoadmin";

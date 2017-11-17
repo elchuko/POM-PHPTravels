@@ -9,6 +9,7 @@ namespace PHPTravelsTest.POM.Validations
 {
     static class CouponsPageValidations
     {
+
         public static void ValidateDeletedCoupon(IWebDriver driver, string deletevalue)
         {
             //Initialize my CouponsPage POM

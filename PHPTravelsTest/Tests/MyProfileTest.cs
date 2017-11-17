@@ -56,8 +56,7 @@ namespace PHPTravelsTest
         }
 
 
-        [Test]
-        public void MyProfileTestCase()
+        [Test] public void TC33_MyProfile_Modified_ProfileSuccesfully()
         {
 
             var firstname = KeyWords["firstname"];

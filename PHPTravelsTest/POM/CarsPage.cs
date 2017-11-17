@@ -10,7 +10,7 @@ using PHPTravelsTest.Utils;
 
 namespace PHPTravelsTest.POM
 {
-    class CarsPage: BasicPage
+    public class CarsPage: BasicPage
     {
         private IWebDriver driver;
 
@@ -52,7 +52,7 @@ namespace PHPTravelsTest.POM
             System.Threading.Thread.Sleep(2000);
         }
 
-        public void ValidateAddedCar(string carName)
+        public string ValidateAddedCar(string carName)
         {
             WebDriverUtils.WaitForElementToBeVisible(driver, "//*[@id='content']/div/div[2]/div/div/div[1]/div[3]/a");
             searchButton.Click();
@@ -60,12 +60,10 @@ namespace PHPTravelsTest.POM
             searchTxtbox.Clear();
             searchTxtbox.SendKeys(carName);
             goButton.Click();
-            Assert.AreEqual(carName, searchResultName.Text);
-
-
-
-
+            return searchResultName.Text;
         }
+
+
 
 
 

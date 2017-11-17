@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using NUnit;
 using NUnit.Framework;
 using PHPTravelsTest.POM;
+using PHPTravelsTest.Validations;
 using PHPTravelsTest.WebFactoryMethod;
 
 namespace PHPTravelsTest.Tests
@@ -31,7 +32,7 @@ namespace PHPTravelsTest.Tests
 
 
         [Test]
-        public void AddCarTest()
+        public void TC02_Cars_AddedCarsSuccessfully()
         {
             
             string carName = "Ferrari";
@@ -41,7 +42,7 @@ namespace PHPTravelsTest.Tests
             dashBoard.GoCarsSubMenu();
             CarsPage carsPage = new CarsPage(driver);
             carsPage.AddCar(carName);
-            carsPage.ValidateAddedCar(carName);
+            CarsValidations.ValidateAddedCar(carsPage,carName);
 
         }
 

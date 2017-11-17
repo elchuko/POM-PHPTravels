@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using PHPTravelsTest.POM;
+using PHPTravelsTest.Tests;
 
 namespace PHPTravelsTest.Validations
 {
-    class CarsValidations: BasicPage
+    public class CarsValidations
     {
-        private IWebDriver driver;
-        public CarsValidations(IWebDriver driver) : base(driver)
+        public static void ValidateAddedCar(CarsPage cars, string carName)
         {
-            
+            Assert.AreEqual(carName, cars.ValidateAddedCar(carName));
         }
+
 
 
     }
