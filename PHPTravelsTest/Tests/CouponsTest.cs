@@ -1,43 +1,45 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using PHPTravelsTest.POM;
 using System.Threading;
 using PHPTravelsTest.WebFactoryMethod;
 using PHPTravelsTest.POM.Validations;
+using System.Configuration;
+using NUnit.Framework;
+using PHPTravelsTest.Utils;
 
 namespace PHPTravelsTest
 {
     /// <summary>
     /// Validation of Coupons test cases
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class CouponsTest
     {
         private IWebDriver driver;
-        string username = "admin@phptravels.com";
-        string password = "demoadmin";
+        private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
 
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
-            WebFactory webFactory = new WebFactory();
-            driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
-            driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
+            Logger.Info("Call to SetupClass.Setup(driver)");
+            driver = SetUpClass.SetUp(driver);
+
             LoginPage loginPage = new LoginPage(driver);
-            loginPage.FillLogin(username, password);
+            Logger.Info("Call to FillLogin");
+            loginPage.FillLogin(ConfigurationManager.AppSettings["username"], ConfigurationManager.AppSettings["password"]);
         }
 
 
-        [TestMethod]
+        [Test]
          public void TC27_Coupons_AddedCouponSuccessfully()
          {
-             string percentage = "50.00";
+            Logger.Info("Test Case Name TC27_Coupons_AddedCouponSuccessfully");
+             string percentage = ConfigurationManager.AppSettings["percentage"];
 
              DashBoard dashboard = new DashBoard(driver);
-             dashboard.goToCouponsPage();
+             Logger.Info("Go to CouponsPage");
 
              CouponsPage coupons = dashboard.goToCouponsPage();
 
@@ -48,79 +50,85 @@ namespace PHPTravelsTest
              Thread.Sleep(1000);
          }
 
-        [TestMethod]
+        [Test]
         public void TC28_Coupons_RemovedCouponSuccessfully()
         {
-            string valuetodelete = "50.00";
+            Logger.Info("Test Case Name TC28_Coupons_RemovedCouponSuccessfully");
+            string valuetodelete = ConfigurationManager.AppSettings["percentage"];
 
             DashBoard dashboard = new DashBoard(driver);
             CouponsPage coupons = dashboard.goToCouponsPage();
-
+            Logger.Info("SearchCoupon " + valuetodelete);
             coupons.SearchCoupon(valuetodelete);
             CouponsPageValidations.ValidateSearchField(coupons, driver, valuetodelete);
-
+            Logger.Info("Delecte Coupon "+ valuetodelete);
             coupons.DeleteCoupon(valuetodelete);
             CouponsPageValidations.ValidateDeletedCoupon(coupons, driver,valuetodelete);
 
             Thread.Sleep(1000);
         }
 
-        [TestMethod]
+        [Test]
         public void TC30_Coupons_EditedCouponSuccessfully()
         {
-            string MaxUses = "20";
-            string Id = "wWIw";
+            Logger.Info("test Case name TC_30_Coupons_EditedCouponSuccessfully");
+            string MaxUses = ConfigurationManager.AppSettings["MaxUses"];
+            string Id = ConfigurationManager.AppSettings["id"];
 
             DashBoard dashboard = new DashBoard(driver);
             CouponsPage coupons = dashboard.goToCouponsPage();
-
+            Logger.Info("SearchCoupon "+Id);
             coupons.SearchCoupon(Id);
             CouponsPageValidations.ValidateSearchField(coupons, driver,Id);
-
+            Logger.Info("EditCouponOnMaxUseValue "+MaxUses);
             coupons.EditCouponOnMaxUseValue(MaxUses);
 
+            Logger.Info("SearchCoupon " +Id);
             coupons.SearchCoupon(Id);
             CouponsPageValidations.ValidateCouponByMaxUses(coupons, driver, MaxUses);
             Thread.Sleep(1000);
 
         }
 
-        [TestMethod]
+        [Test]
         public void TC31_Coupon_SearchedCouponSuccessfully()
         {
-            string Value = "10.00";
+            Logger.Info("test Case name TC31_Coupon_SearchedCouponSuccessfully");
+            string Value = ConfigurationManager.AppSettings["number"];
 
             DashBoard dashboard = new DashBoard(driver);
             CouponsPage coupons = dashboard.goToCouponsPage();
-
+            Logger.Info("SearchCoupon "+Value);
             coupons.SearchCoupon(Value);
+            Logger.Info("ValidateSearchField");
             CouponsPageValidations.ValidateSearchField(coupons, driver, Value);
             Thread.Sleep(1000);
         }
 
-        [TestMethod]
+        [Test]
         public void TC32_Coupon_PrintedCouponSuccessfully()
         {
+            Logger.Info("Test Case Name TC32_Coupon_PrintedCouponSuccessfully");
             string ParentWindow;
-            string printpage = "xcrud";
-            string mainpage = "coupons";
+            string printpage = ConfigurationManager.AppSettings["printpage"];
+            string mainpage = ConfigurationManager.AppSettings["mainpage"];
 
             DashBoard dashboard = new DashBoard(driver);
             CouponsPage coupons = dashboard.goToCouponsPage();
-
+            Logger.Info("OpenPrintWindow");
             ParentWindow = coupons.OpenPrintWindow();
+            Logger.Info("ValidateifURLisCorrect " + printpage);
             CouponsPageValidations.ValidateIfURLIsCorrect(driver, printpage);
-
+            Logger.Info("ClosePrintWindow");
             coupons.ClosePrintWindow(ParentWindow);
             CouponsPageValidations.ValidateIfURLIsCorrect(driver, mainpage);
             Thread.Sleep(1000);
         }
 
-        [TestCleanup]
+        [TearDown]
         public void CleanUp()
         {
-            driver.Close();
-            driver.Quit();
+            CleanUpClass.CloseAndClean(driver);
         }
     }
 }

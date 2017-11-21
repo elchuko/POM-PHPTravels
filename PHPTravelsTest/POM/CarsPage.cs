@@ -14,6 +14,8 @@ namespace PHPTravelsTest.POM
     {
         private IWebDriver driver;
 
+        private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
+
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div/form/button")]
         private IWebElement add;
 

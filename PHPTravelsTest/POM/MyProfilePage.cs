@@ -19,6 +19,8 @@ namespace PHPTravelsTest
     class MyProfilePage : BasicPage
     {
         private IWebDriver driver;
+
+        private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
         public MyProfilePage(IWebDriver driver) : base(driver)
         {
             this.driver = driver;
@@ -156,6 +158,7 @@ namespace PHPTravelsTest
             string address2
             )
         {
+            Logger.Info("Inside WriteFieldValues should write the values passed as parameters");
             if (firstname != null) WriteFirstName(firstname);
             if (lastname != null) WriteLastName(lastname);
             if (mail != null) WriteMail(mail);
@@ -183,7 +186,18 @@ namespace PHPTravelsTest
 
         public void VerifyFirstName(string name)
         {
-            Assert.AreEqual(txtboxFirstName.GetAttribute("value"), name);
+            try
+            {
+                Logger.Info("Try to Assert FirstNAme is the same than the written");
+                Assert.AreEqual(txtboxFirstName.GetAttribute("value"), name);
+            }
+            catch (Exception e)
+            {
+                Logger.Info("They are not the same");
+                Console.WriteLine("Something Went Wrong");
+                throw;
+            }
+            
         }
         //public void IsNull(Func<string,int> mymethod)
         //{

@@ -7,6 +7,8 @@ namespace PHPTravelsTest
     public class LeftSideBanner: BasicPage
     {
         private IWebDriver driver;
+
+        private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
         //private WebDriverWait wait;
         //constructor
         public LeftSideBanner(IWebDriver driver) : base(driver)
@@ -39,21 +41,25 @@ namespace PHPTravelsTest
         public void GoToMyProfile()
         {
             System.Threading.Thread.Sleep(2000);
+            Logger.Info("Click on My profile Arrow");
             WebDriverUtils.WaitForElementToBeClickable(driver, myProfileArrow);
             //wait.Until(ExpectedConditions.ElementToBeClickable(myProfileArrow));
             myProfileArrow.Click();
+            Logger.Info("Click on My Profile");
             myProfile.Click();
         }
 
         public void GoToCouponsPage()
         {
             WebDriverUtils.WaitForElementToBeClickable(driver,CouponsPage);
+            Logger.Info("Click on Coupons Menu");
             CouponsPage.Click();
         }
 
         public void GoToCarsMenu()
         {
             WebDriverUtils.WaitForElementToBeVisible(driver, "//*[@id='social-sidebar-menu']/li[6]/a");
+            Logger.Info("Click on Cars menu");
             menuCars.Click();
 
         }
@@ -62,19 +68,21 @@ namespace PHPTravelsTest
         {
             GoToCarsMenu();
             WebDriverUtils.WaitForElementToBeVisible(driver, "//*[@id='Cars']/li[1]/a");
+            Logger.Info("Click on Cars/Cars");
             carsInsideCars.Click();
         }
 
         public void GoToExtrasInsideCarsMenu()
         {
             GoToCarsMenu();
+            Logger.Info("Click on Cars/Extras");
             extrasInsideCars.Click();
         }
 
         public void GoToCarSettingsInsideCarsMenu()
         {
             GoToCarsMenu();
-            
+            Logger.Info("Click on Cars/Settings");
             carsSettingsInsideCars.Click();
         }
 

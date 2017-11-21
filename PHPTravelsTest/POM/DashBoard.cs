@@ -16,8 +16,8 @@ namespace PHPTravelsTest
     class DashBoard: BasicPage
     {
         private IWebDriver driver;
-        //private string CurrentURL = null;
-        //private string URL = "jdfkaldfa";//this should not be hardcoded
+
+        private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
 
         public DashBoard(IWebDriver driver) : base(driver)
         {
@@ -26,6 +26,7 @@ namespace PHPTravelsTest
 
         public void goMyProfile()
         {
+            Logger.Info("Go to My Profile");
             LeftSideBanner banner = new LeftSideBanner(driver);
             banner.GoToMyProfile();
             System.Threading.Thread.Sleep(3000);
@@ -33,6 +34,7 @@ namespace PHPTravelsTest
 
         public CouponsPage goToCouponsPage()
         {
+            Logger.Info("Go To CouponsPage");
             LeftSideBanner banner = new LeftSideBanner(driver);
             banner.GoToCouponsPage();
 
@@ -41,6 +43,7 @@ namespace PHPTravelsTest
 
         public void GoCarsSubMenu()
         {
+            Logger.Info("Go to Cars submenu");
             LeftSideBanner banner = new LeftSideBanner(driver);
             banner.GoToCarsInsideCarsMenu();
             Thread.Sleep(1000);
@@ -49,6 +52,7 @@ namespace PHPTravelsTest
 
         public void GoExtrasSubMenu()
         {
+            Logger.Info("Go to Extras SubMenu");
             LeftSideBanner banner = new LeftSideBanner(driver);
             banner.GoToExtrasInsideCarsMenu();
             Thread.Sleep(1000);
@@ -56,20 +60,10 @@ namespace PHPTravelsTest
 
         public void GoSettingsSubMenu()
         {
+            Logger.Info("Go to Car Settings");
             LeftSideBanner banner = new LeftSideBanner(driver);
             banner.GoToCarSettingsInsideCarsMenu();
             Thread.Sleep(1000);
         }
-
-
-        //public bool VerifyWeAreDashBoard()
-        //{
-        //    CurrentURL = driver.Url;
-        //    if (CurrentURL.Equals(URL))
-        //    {
-        //        return true;
-        //    }
-        //    else return false;
-        //}
     }
 }

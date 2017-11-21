@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -7,71 +6,56 @@ using OpenQA.Selenium.Firefox;
 using PHPTravelsTest.WebFactoryMethod;
 using System.Collections.Generic;
 using System.Net;
+using System.Configuration;
+using PHPTravelsTest.POM;
+using PHPTravelsTest.Utils;
 
 namespace PHPTravelsTest
 {
 
     //Enum for the Browsers to be used
-    public enum Browsers
-    {
-        Chrome,
-        Firefox,
-        IE
-    };
 
-    [TestClass]
+    [TestFixture]
     public class MyProfileTest
     {   
         
         private IWebDriver driver;
-
-        Dictionary<string, string> KeyWords = new Dictionary<string, string>();
+        private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
 
         [SetUp]
         public void SetUp()
         {
-            KeyWords.Add("firstname", "Eusebio");
-            KeyWords.Add("lastname", null);
-            KeyWords.Add("mail", null);
-            KeyWords.Add("mobile", null);
-            KeyWords.Add("country", null);
-            KeyWords.Add("address1", null);
-            KeyWords.Add("address2", null);
-            KeyWords.Add("username", "admin@phptravels.com");
-            KeyWords.Add("password", "demoadmin");
-
-            var username = KeyWords["username"];
-            var password = KeyWords["password"];
-           
-
-            WebFactory webFactory = new WebFactory();
-            driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
-            driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
-            driver.Manage().Window.Maximize();
+            driver = SetUpClass.SetUp(driver);
             LoginPage loginPage = new LoginPage(driver);
-            loginPage.FillLogin(username, password);
-
-            //Setup values
-            
+            loginPage.FillLogin(ConfigurationManager.AppSettings["username"], ConfigurationManager.AppSettings["password"]);
         }
 
 
         [Test] public void TC33_MyProfile_Modified_ProfileSuccesfully()
         {
-
-            var firstname = KeyWords["firstname"];
-            var lastname = KeyWords["lastname"];
-            var mail = KeyWords["mail"];
-            var mobile = KeyWords["mobile"];
-            var country = KeyWords["country"];
-            var address1 = KeyWords["address1"];
-            var address2 = KeyWords["address2"];
+            Logger.Info("Test Case Name TC33_MyProfile_Modified_ProfileSuccesfully");
+            var firstname = ConfigurationManager.AppSettings["firstname"];
+            var lastname = ConfigurationManager.AppSettings["lastname"];
+            var mail = ConfigurationManager.AppSettings["mail"];
+            var mobile = ConfigurationManager.AppSettings["mobile"];
+            var country = ConfigurationManager.AppSettings["country"];
+            var address1 = ConfigurationManager.AppSettings["address1"];
+            var address2 = ConfigurationManager.AppSettings["address2"];
 
 
             DashBoard dashBoard = new DashBoard(driver);
+            Logger.Info("Go to My Profile");
             dashBoard.goMyProfile();
             MyProfilePage myProfile = new MyProfilePage(driver);
+            Logger.Info("Write Field Values Firstname " + firstname + 
+                " Lastname "+ lastname + 
+                " mail "+ mail +
+                " mobile "+ mobile + 
+                " Country " + country + 
+                " address1 " + address1 + 
+                " address 2 "+address2);
             myProfile.WriteFieldValues(firstname,lastname,mail,mobile,country,address1,address2);
+            Logger.Info("VerifyValue with values passed as parameters");
             myProfile.VerifyValue(firstname, lastname, mail, mobile, country, address1, address2);
             
         }
@@ -79,8 +63,7 @@ namespace PHPTravelsTest
         [TearDown]
         public void CleanUp()
         {
-            driver.Close();
-            driver.Quit();
+            CleanUpClass.CloseAndClean(driver);
         }
     }
 }

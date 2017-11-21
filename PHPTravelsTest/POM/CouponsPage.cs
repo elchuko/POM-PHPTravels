@@ -17,6 +17,8 @@ namespace PHPTravelsTest.POM
         //Initialize WebDriver(s)
         public IWebDriver driver;
 
+        private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
+
         //Initialize xpaths variables
 
         //Go to Coupons banner
@@ -95,11 +97,13 @@ namespace PHPTravelsTest.POM
 
         public void goToCouponsPage()
         {
+            Logger.Info("goToCouponsPage");
             WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPageButton);
             CouponsPageButton.Click();
         }
         private void ClickAddButton()
         {
+            Logger.Info("ClickAddButton");
             WebDriverUtils.WaitForElementToBeVisible(driver, ".//button[@class='btn btn-success']");
             WebDriverUtils.WaitForElementToBeClickable(driver, AddButton);
 
@@ -108,6 +112,7 @@ namespace PHPTravelsTest.POM
 
         private void TypePercentageValue(string percentage)
         {
+            Logger.Info("TypePercentageValue");
             WebDriverUtils.WaitForElementToBeVisible(driver, ".//form[@id='addcoupon']//input[@id='rate' and @placeholder='Percentage']");
             WebDriverUtils.WaitForElementToBeClickable(driver,ACPercentageField);
 
@@ -117,6 +122,7 @@ namespace PHPTravelsTest.POM
 
         private void ClickGenerateButton()
         {
+            Logger.Info("ClickGenerateButton");
             WebDriverUtils.WaitForElementToBeVisible(driver, ".//form[@id='addcoupon']//button[@id='add']");
             WebDriverUtils.WaitForElementToBeClickable(driver, GenerateButton);
 
@@ -128,6 +134,7 @@ namespace PHPTravelsTest.POM
         private string ClickSubmitCoupon()
         {
             string CouponCode;
+            Logger.Info("ClickSubmitCoupon");
 
             CouponCode = WebDriverUtils.GetInputText(ACCouponCodeField);
 
@@ -144,6 +151,7 @@ namespace PHPTravelsTest.POM
 
         private void TypeCodeCouponValue(string codecoupon)
         {
+            Logger.Info("TypeCodeCouponValue");
             WebDriverUtils.WaitForElementToBeVisible(driver, ".//input[@id='codeadd' and @placeholder='Coupon Code']");
             WebDriverUtils.WaitForElementToBeClickable(driver, ACCouponCodeField);
 
@@ -153,6 +161,7 @@ namespace PHPTravelsTest.POM
 
         private void FillCouponByPercentageAndDefinedCode(string percentage, string codevalue)
         {
+            Logger.Info("FillCouponByPercentageAndDefinedCode");
             TypePercentageValue(percentage);
             TypeCodeCouponValue(codevalue);
             WebDriverUtils.WaitForTextToBePresentInElement(driver, CouponCodeField, codevalue);
@@ -160,6 +169,7 @@ namespace PHPTravelsTest.POM
 
         private void ClickDeleteButton()
         {
+            Logger.Info("ClickDeleteButton");
             WebDriverUtils.WaitForElementToBeVisible(driver,".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[3]/i");
             WebDriverUtils.WaitForElementToBeClickable(driver,DeleteButton);
 
@@ -168,6 +178,7 @@ namespace PHPTravelsTest.POM
 
         private void ConfirmDeleteCoupon()
         {
+            Logger.Info("ConfirmDeleteCoupon");
             WebDriverUtils.WaitForAlertIsPresent(driver);
             IAlert alert = driver.SwitchTo().Alert();
 
@@ -177,6 +188,7 @@ namespace PHPTravelsTest.POM
 
         private void ClickEditButton()
         {
+            Logger.Info("ClickEditButton");
             WebDriverUtils.WaitForElementToBeVisible(driver,".//table[@class='xcrud-list table table-striped table-hover']//tr[1]/td[11]/span/a[1]/i");
             WebDriverUtils.WaitForElementToBeClickable(driver,EditButton);
 
@@ -185,6 +197,7 @@ namespace PHPTravelsTest.POM
 
         private void TypeMaxUsesVal(string MaxUses)
         {
+            Logger.Info("TypeMaxUsesVal");
             string number = CouponId.Text;
             string Xpath = ".//form[contains(@id,'"+number+"')]//input[@placeholder='Maximum Uses']";
 
@@ -200,6 +213,7 @@ namespace PHPTravelsTest.POM
 
         private void ClickUpdateButton()
         {
+            Logger.Info("Click Update Button");
             string number = CouponId.Text;
             string Xpath = ".//div[@id='editCop"+number+"']//button[@id="+number+"]";
             IWebElement UpdateButton = driver.FindElement(By.XPath(Xpath));
@@ -213,6 +227,7 @@ namespace PHPTravelsTest.POM
 
         private void ClickSearchButton()
         { 
+            Logger.Info("clickSearchButton");
             WebDriverUtils.WaitForElementToBeVisible(driver, ".//a[@class='xcrud-search-toggle btn btn-default']");
             WebDriverUtils.WaitForElementToBeClickable(driver, SearchButton);
 
@@ -221,19 +236,21 @@ namespace PHPTravelsTest.POM
 
         private void TypeSearchValue(string Value)
         {
-
+            Logger.Info("TypoeSearchValue");
             WebDriverUtils.WaitForElementToBeClickable(driver,SearchField);
             SearchField.SendKeys(Value);
         }
 
         private void ClickGoButton()
         {
+            Logger.Info("ClickGoButton");
             WebDriverUtils.WaitForElementToBeClickable(driver,GoButton);
             GoButton.Click();
         }
 
         private string ClickPrintButton()
         {
+            Logger.Info("ClickPrintButton");
             string ParentWindow = driver.CurrentWindowHandle;
 
             WebDriverUtils.WaitForElementToBeClickable(driver,PrintButton);
@@ -255,11 +272,14 @@ namespace PHPTravelsTest.POM
 
         public  string AddCouponWithGenericCode(string percentage)
         {
+            Logger.Info("inside AddCouponWithGenericCode");
             string CodeValue;
 
             ClickAddButton();
+            Logger.Info("Type Percentage Value");
             TypePercentageValue(percentage);
             ClickGenerateButton();
+
             CodeValue = ClickSubmitCoupon();
             return CodeValue;
         }
@@ -277,7 +297,7 @@ namespace PHPTravelsTest.POM
 
         public void DeleteCoupon(string value)
         {
-
+            Logger.Info("Delete Coupon");
             WebDriverUtils.WaitForElementToBeClickable(driver,AddButton);
 
             ClickDeleteButton();
@@ -287,6 +307,7 @@ namespace PHPTravelsTest.POM
 
         public void EditCouponOnMaxUseValue(string MaxUses)
         {
+            Logger.Info("EditCouponOnMaxUseValue");
             WebDriverUtils.WaitForElementToBeClickable(driver, AddButton);
 
             ClickEditButton();
@@ -297,6 +318,7 @@ namespace PHPTravelsTest.POM
 
         public void SearchCoupon(string Value)
         {
+            Logger.Info("SearchCoupon " + Value);
             WebDriverUtils.WaitForElementToBeClickable(driver, AddButton);
 
             ClickSearchButton();
@@ -306,6 +328,7 @@ namespace PHPTravelsTest.POM
 
         public String OpenPrintWindow()
         {
+            Logger.Info("OpenPrintWindow");
             WebDriverUtils.WaitForElementToBeClickable(driver, AddButton);
 
             string ParentWindow = ClickPrintButton();
@@ -314,6 +337,7 @@ namespace PHPTravelsTest.POM
 
         public void ClosePrintWindow(string ParentWindow)
         {
+            Logger.Info("ClosePrintWindow");
             ClosePrintCoupon(ParentWindow);
         }
     }

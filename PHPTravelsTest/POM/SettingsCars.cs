@@ -10,7 +10,9 @@ namespace PHPTravelsTest.POM
 {
     class SettingsCars: BasicPage
     {
-        private IWebElement driver;
+        private IWebDriver driver;
+
+        private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
 
         [FindsBy(How = How.XPath, Using = "//*[@id='content']/div/form/button")]
         private IWebElement add;
@@ -20,7 +22,7 @@ namespace PHPTravelsTest.POM
 
         public SettingsCars(IWebDriver driver) : base(driver)
         {
-
+            this.driver = driver;
         }
 
 

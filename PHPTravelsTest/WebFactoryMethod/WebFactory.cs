@@ -12,6 +12,8 @@ namespace PHPTravelsTest.WebFactoryMethod
 {
     public class WebFactory: AbsWebFactory
     {
+        private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
+
         public override IWebDriver GetWebDriver(string browser)
         {
             switch (browser)

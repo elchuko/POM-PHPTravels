@@ -16,9 +16,9 @@ namespace PHPTravelsTest
 {
     class LoginPage : BasicPage
     {
-        //private string username;
-        //private string password;
         private IWebDriver driver;
+
+        private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
 
         //constructor for ChromeDriver
         public LoginPage(IWebDriver driver) : base(driver)
@@ -49,16 +49,20 @@ namespace PHPTravelsTest
 
         public void ClickButton()
         {
+            Logger.Info("Click on LoginButton");
             loginButton.Click();
         }
 
         public void FillLogin(string username, string password)
         {
-            
+            Logger.Info("inside FillLogin");
+            Logger.Info("Write username "+ username);
             SendUsername(username);
             System.Threading.Thread.Sleep(3000);
+            Logger.Info("Write Password "+password);
             SendPassword(password);
             System.Threading.Thread.Sleep(3000);
+            Logger.Info("Click on Button");
             ClickButton();
         //return PageFactory.GetPage();
         }
