@@ -7,13 +7,10 @@ using System.Threading;
 
 namespace PHPTravelsTest.POM.Validations
 {
-    static class CouponsPageValidations
+    public static class CouponsPageValidations
     {
-
-        public static void ValidateDeletedCoupon(IWebDriver driver, string deletevalue)
+        public static void ValidateDeletedCoupon(CouponsPage CouponsPage,IWebDriver driver,string deletevalue)
         {
-            //Initialize my CouponsPage POM
-            CouponsPage CouponsPage = new CouponsPage(driver);
 
             //Initialize variables
             bool exists = false;
@@ -41,10 +38,8 @@ namespace PHPTravelsTest.POM.Validations
             
         }
 
-        public static void ValidateCouponbyPercentage(IWebDriver driver, string percentage)
+        public static void ValidateCouponbyPercentage(CouponsPage CouponsPage,IWebDriver driver, string percentage)
         {
-            //Initialize my CouponsPage POM
-            CouponsPage CouponsPage = new CouponsPage(driver);
 
             WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
 
@@ -68,10 +63,8 @@ namespace PHPTravelsTest.POM.Validations
             
         }
 
-        public static void ValidateCouponbyCouponCode(IWebDriver driver, string CouponCode)
+        public static void ValidateCouponbyCouponCode(CouponsPage CouponsPage, IWebDriver driver, string CouponCode)
         {
-            //Initialize my CouponsPage POM
-            CouponsPage CouponsPage = new CouponsPage(driver);
 
             WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
 
@@ -95,10 +88,8 @@ namespace PHPTravelsTest.POM.Validations
             
         }
 
-        public static void ValidateCouponByMaxUses(IWebDriver driver, string MaxUses)
+        public static void ValidateCouponByMaxUses(CouponsPage CouponsPage, IWebDriver driver, string MaxUses)
         {
-            //Initialize my CouponsPage POM
-            CouponsPage CouponsPage = new CouponsPage(driver);
 
             //Initialize variables
             WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
@@ -122,9 +113,8 @@ namespace PHPTravelsTest.POM.Validations
             
         }
 
-        public static void ValidateSearchField(IWebDriver driver, string value)
-        {   //Initialize my CouponsPage POM
-            CouponsPage CouponsPage = new CouponsPage(driver);
+        public static void ValidateSearchField(CouponsPage CouponsPage, IWebDriver driver, string value)
+        {   
 
             //Initialize variables
             bool failed = false;
@@ -179,7 +169,7 @@ namespace PHPTravelsTest.POM.Validations
 
         public static bool ValidateIfNoElementsFoundExist(IWebDriver driver, IWebElement NoFoundElementsField)
         {
-            //Initializa variables
+            //Initialize variables
             bool failed = false;
 
             try

@@ -43,7 +43,6 @@ namespace PHPTravelsTest.Tests
             CarsPage carsPage = new CarsPage(driver);
             carsPage.AddCar(carName);
             CarsValidations.ValidateAddedCar(carsPage,carName);
-
         }
 
         [TearDown]

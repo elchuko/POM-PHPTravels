@@ -43,7 +43,7 @@ namespace PHPTravelsTest
 
              string CodeValue = coupons.AddCouponWithGenericCode(percentage);
              coupons.SearchCoupon(CodeValue);
-             CouponsPageValidations.ValidateCouponbyPercentage(driver, percentage);
+             CouponsPageValidations.ValidateCouponbyPercentage(coupons, driver, percentage);
 
              Thread.Sleep(1000);
          }
@@ -57,10 +57,10 @@ namespace PHPTravelsTest
             CouponsPage coupons = dashboard.goToCouponsPage();
 
             coupons.SearchCoupon(valuetodelete);
-            CouponsPageValidations.ValidateSearchField(driver,valuetodelete);
+            CouponsPageValidations.ValidateSearchField(coupons, driver, valuetodelete);
 
             coupons.DeleteCoupon(valuetodelete);
-            CouponsPageValidations.ValidateDeletedCoupon(driver,valuetodelete);
+            CouponsPageValidations.ValidateDeletedCoupon(coupons, driver,valuetodelete);
 
             Thread.Sleep(1000);
         }
@@ -75,12 +75,12 @@ namespace PHPTravelsTest
             CouponsPage coupons = dashboard.goToCouponsPage();
 
             coupons.SearchCoupon(Id);
-            CouponsPageValidations.ValidateSearchField(driver,Id);
+            CouponsPageValidations.ValidateSearchField(coupons, driver,Id);
 
             coupons.EditCouponOnMaxUseValue(MaxUses);
 
             coupons.SearchCoupon(Id);
-            CouponsPageValidations.ValidateCouponByMaxUses(driver,MaxUses);
+            CouponsPageValidations.ValidateCouponByMaxUses(coupons, driver, MaxUses);
             Thread.Sleep(1000);
 
         }
@@ -94,7 +94,7 @@ namespace PHPTravelsTest
             CouponsPage coupons = dashboard.goToCouponsPage();
 
             coupons.SearchCoupon(Value);
-            CouponsPageValidations.ValidateSearchField(driver,Value);
+            CouponsPageValidations.ValidateSearchField(coupons, driver, Value);
             Thread.Sleep(1000);
         }
 

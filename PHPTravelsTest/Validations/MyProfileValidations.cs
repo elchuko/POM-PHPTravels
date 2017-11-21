@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PHPTravelsTest.Validations
 {
-    static class MyProfileValidations
+    public static class MyProfileValidations
     {
 
     }

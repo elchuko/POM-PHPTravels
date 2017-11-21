@@ -7,6 +7,7 @@ using OpenQA.Selenium.Firefox;
 using PHPTravelsTest.POM;
 using System.Threading;
 using PHPTravelsTest.WebFactoryMethod;
+using System.Configuration;
 
 namespace PHPTravelsTest
 {
@@ -19,10 +20,10 @@ namespace PHPTravelsTest
         public void SetUp()
         {
             WebFactory webFactory = new WebFactory();
-            driver = webFactory.GetWebDriver(Browsers.Chrome.ToString());
+            driver = webFactory.GetWebDriver(ConfigurationManager.AppSettings["browser"]);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl("http://www.phptravels.net/admin");
+            driver.Navigate().GoToUrl(ConfigurationManager.AppSettings["URL"]);
 
         }
 
@@ -30,11 +31,9 @@ namespace PHPTravelsTest
         [Test]
         public void TC01_Login_AdminLoginSuccessfully()
         {
-            string username = "admin@phptravels.com";
-            string password = "demoadmin";
-
+            
             LoginPage loginPage = new LoginPage(driver);
-            loginPage.FillLogin(username, password);
+            loginPage.FillLogin(ConfigurationManager.AppSettings["username"], ConfigurationManager.AppSettings["password"]);
             DashBoard dashBoard = new DashBoard(driver);
             System.Threading.Thread.Sleep(3000);
             

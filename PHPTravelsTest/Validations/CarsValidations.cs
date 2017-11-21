@@ -10,11 +10,21 @@ using PHPTravelsTest.Tests;
 
 namespace PHPTravelsTest.Validations
 {
-    public class CarsValidations
+    public static class CarsValidations
     {
-        public static void ValidateAddedCar(CarsPage cars, string carName)
+        public static void ValidateAddedCar(CarsPage carsPage, string carName)
         {
-            Assert.AreEqual(carName, cars.ValidateAddedCar(carName));
+            try
+            {
+                Assert.AreEqual(carName, carsPage.ValidateAddedCar(carName));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            
         }
 
 
