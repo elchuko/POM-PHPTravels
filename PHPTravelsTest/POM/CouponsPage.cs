@@ -340,5 +340,114 @@ namespace PHPTravelsTest.POM
             Logger.Info("ClosePrintWindow");
             ClosePrintCoupon(ParentWindow);
         }
+        public bool CouponDeletedMethod(string deletevalue)
+        {
+            //Initialize variables
+            bool exists;
+
+            WebDriverUtils.WaitForElementToBeVisible(driver, TableFrameXpath);
+
+            if (CouponsPageValidations.ValidateIfNoElementsFoundExist(driver, NoFoundElementsField) == false)
+            {
+                exists = false;
+                return exists;
+            }
+            else
+            {
+                WebDriverUtils.WaitForElementToBeClickable(driver, CouponId);
+                exists = CouponId.Displayed.Equals(deletevalue);
+                return exists;
+            }
+        }
+
+        public string CouponPercentageMethod()
+        {
+            WebDriverUtils.WaitForElementToBeVisible(driver, TableFrameXpath);
+            if (CouponsPageValidations.ValidateIfNoElementsFoundExist(driver, NoFoundElementsField))
+            {
+                //Initialize variables
+                WebDriverUtils.WaitForElementToBeClickable(driver, PercentageField);
+                string CouponPercentage = WebDriverUtils.GetElementText(PercentageField);
+                return CouponPercentage;
+
+            }
+            return null;
+        }
+
+        public string CouponCodeMethod()
+        {
+            WebDriverUtils.WaitForElementToBeVisible(driver, TableFrameXpath);
+
+            if (CouponsPageValidations.ValidateIfNoElementsFoundExist(driver, NoFoundElementsField) == true)
+            {
+                //Initialize variables
+                WebDriverUtils.WaitForElementToBeClickable(driver, CouponCodeField);
+                string CouponCodeval = WebDriverUtils.GetElementText(CouponCodeField);
+                return CouponCodeval;
+            }
+            return null;
+        }
+
+        public string MaxUsesMethod()
+        {
+            WebDriverUtils.WaitForElementToBeVisible(driver, TableFrameXpath);
+
+            if (CouponsPageValidations.ValidateIfNoElementsFoundExist(driver, NoFoundElementsField) == true)
+            {
+                WebDriverUtils.WaitForElementToBeClickable(driver, MaxUsesField);
+                string CouponMaxUses = WebDriverUtils.GetElementText(MaxUsesField);
+                return CouponMaxUses;
+
+            }
+
+            return null;
+        }
+
+        public bool SearchFieldMethod(string value)
+        {
+            //Initialize variables
+            bool failed;
+
+            WebDriverUtils.WaitForElementToBeVisible(driver, TableFrameXpath);
+
+            if (CouponsPageValidations.ValidateIfNoElementsFoundExist(driver, NoFoundElementsField) == true)
+            {
+                WebDriverUtils.WaitForElementToBeClickable(driver, CouponCodeField);
+
+                string CouponCode = WebDriverUtils.GetElementText(CouponCodeField);
+                string CouponPercentage = WebDriverUtils.GetElementText(PercentageField);
+                string CouponMaxUses = WebDriverUtils.GetElementText(MaxUsesField);
+
+                if (CouponCode == value)
+                {
+                    failed = true;
+                }
+                else
+                {
+                    if (CouponPercentage == value)
+                    {
+                        failed = true;
+                    }
+                    else
+                    {
+                        if (CouponMaxUses == value)
+                        {
+                            failed = true;
+                        }
+                        else
+                          failed = false;
+                    }
+
+                }
+                
+            }
+            else
+            {
+                failed = false;
+                
+            }
+            return failed;
+
+        }
     }
 }

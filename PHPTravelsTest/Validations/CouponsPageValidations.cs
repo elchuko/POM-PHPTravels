@@ -13,26 +13,10 @@ namespace PHPTravelsTest.POM.Validations
         private static readonly log4net.ILog Logger = Utils.Logger.GetLoggerInstance();
         public static void ValidateDeletedCoupon(CouponsPage CouponsPage,IWebDriver driver,string deletevalue)
         {
-            Logger.Info("Inside ValidateDeletedCoupon");
-            //Initialize variables
-            bool exists = false;
-
-            WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
-
-            if (ValidateIfNoElementsFoundExist(driver, CouponsPage.NoFoundElementsField) == false)
-            {
-                exists = false;
-            }
-            else
-            {
-                WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPage.CouponId);
-                exists = CouponsPage.CouponId.Displayed.Equals(deletevalue);
-            }
-
             try
             {
                 Logger.Info("Try to Assert if the coupon doesn't exist");
-                Assert.IsFalse(exists);
+                Assert.IsFalse(CouponsPage.CouponDeletedMethod(deletevalue));
             }
             catch(Exception e)
             {
@@ -40,33 +24,21 @@ namespace PHPTravelsTest.POM.Validations
                 Console.Write("Element was not Deleted successfully", e.Message);
                 Assert.Fail();
             }
-            
         }
 
         public static void ValidateCouponbyPercentage(CouponsPage CouponsPage,IWebDriver driver, string percentage)
         {
-            Logger.Info("Inside ValidateCouponbyPercentage");
-            WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
-
-            if (ValidateIfNoElementsFoundExist(driver, CouponsPage.NoFoundElementsField) == true)
-            {
-                //Initialize variables
-                WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPage.PercentageField);
-                string CouponPercentage = WebDriverUtils.GetElementText(CouponsPage.PercentageField);
-
                 try
                 {
                     Logger.Info("Assert if CouponPercentage == percentage");
-                    Assert.IsTrue(CouponPercentage == percentage);
+                    Assert.AreEqual(percentage, CouponsPage.CouponPercentageMethod());
                 }
                 catch(Exception e)
                 {
                     Logger.Error("They are not Equal");
                     Console.Write("Percentage field is not displayed correctly., Message:{0}", e.Message);
                     Assert.Fail();
-          
                 }
-            }
 
             
         }
@@ -74,111 +46,50 @@ namespace PHPTravelsTest.POM.Validations
         public static void ValidateCouponbyCouponCode(CouponsPage CouponsPage, IWebDriver driver, string CouponCode)
         {
             Logger.Info("Inside ValidateCouponbyCouponCode");
-            WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
-
-            if (ValidateIfNoElementsFoundExist(driver, CouponsPage.NoFoundElementsField) == true)
-            {
-                //Initialize variables
-                WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPage.CouponCodeField);
-                string CouponCodeval = WebDriverUtils.GetElementText(CouponsPage.CouponCodeField);
-
+           
                 try
                 {
                     Logger.Info("Try to Assert if CouponCodeval == CouponCode");
-                    Assert.IsTrue(CouponCodeval == CouponCode);
+                    Assert.AreEqual(CouponCode,CouponsPage.CouponCodeMethod());
                 }
                 catch(Exception e)
                 {
                     Logger.Error("They are not the same");
                     Console.Write("Coupon Code field is not displayed correctly., Message:{0}", e.Message);
                     Assert.Fail();
-
                 }
-            }
+            
         }
 
         public static void ValidateCouponByMaxUses(CouponsPage CouponsPage, IWebDriver driver, string MaxUses)
         {
             Logger.Info("Inside ValidateCouponByMaxUses");
-            //Initialize variables
-            WebDriverUtils.WaitForElementToBeVisible(driver, CouponsPage.TableFrameXpath);
-
-            if (ValidateIfNoElementsFoundExist(driver, CouponsPage.NoFoundElementsField) == true)
-            {
-                WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPage.MaxUsesField);
-                string CouponMaxUses = WebDriverUtils.GetElementText(CouponsPage.MaxUsesField);
-
                 try
                 {
                     Logger.Info("Try to Assert if CouponMaxUses == MaxUses");
-                    Assert.IsTrue(CouponMaxUses == MaxUses);
+                    Assert.AreEqual(MaxUses,CouponsPage.MaxUsesMethod());
                 }
                 catch (Exception e)
                 {
                     Logger.Error("They are not equal");
                     Console.Write("Max Uses field is not displayed correctly., Message:{0}", e.Message);
                     Assert.Fail();
-                    
                 }
-            }
-
-            
         }
 
         public static void ValidateSearchField(CouponsPage CouponsPage, IWebDriver driver, string value)
         {   
             Logger.Info("inside ValidateSearchField");
-            //Initialize variables
-            bool failed = false;
-
-            WebDriverUtils.WaitForElementToBeVisible(driver,CouponsPage.TableFrameXpath);
-
-            if (ValidateIfNoElementsFoundExist(driver,CouponsPage.NoFoundElementsField) == true)
-            {
-                WebDriverUtils.WaitForElementToBeClickable(driver, CouponsPage.CouponCodeField);
-
-                string CouponCode = WebDriverUtils.GetElementText(CouponsPage.CouponCodeField);
-                string CouponPercentage = WebDriverUtils.GetElementText(CouponsPage.PercentageField);
-                string CouponMaxUses = WebDriverUtils.GetElementText(CouponsPage.MaxUsesField);
-
-                if (CouponCode == value)
-                {
-                    failed = true;
-                }
-                else
-                {
-                    if (CouponPercentage == value)
-                    {
-                        failed = true;
-                    }
-                    else
-                    {
-                        if (CouponMaxUses == value)
-                        {
-                            failed = true;
-                        }
-                        else
-                            failed = false;
-                    }
-
-                }
-            }
-           else
-            {
-                failed = false;
-            }
-
             try
             {
                 Logger.Info("Try to Assert if search didn't fail");
-                Assert.IsTrue(failed);
+                Assert.IsTrue(CouponsPage.SearchFieldMethod(value));
             }
             catch(Exception e)
             {
                 Logger.Error("There was no field with that value");
                 Console.Write("No elements were found for the given value to search., Message:{0}",e.Message);
                 Assert.Fail();
-
             }
         }
 
@@ -198,7 +109,7 @@ namespace PHPTravelsTest.POM.Validations
             {
                 Logger.Error("It is not visible");
                 failed = true;
-                Assert.Fail();
+                //Assert.Fail();
 
             }
 
