@@ -1,10 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using PHPTravelsTest.Utils;
 using System;
 using System.Threading;
 using log4net.Core;
+using NUnit.Framework;
 
 namespace PHPTravelsTest.POM.Validations
 {
@@ -109,8 +110,6 @@ namespace PHPTravelsTest.POM.Validations
             {
                 Logger.Error("It is not visible");
                 failed = true;
-                //Assert.Fail();
-
             }
 
             return failed;
@@ -128,7 +127,6 @@ namespace PHPTravelsTest.POM.Validations
                 Logger.Error("URL is not correct");
                 Console.Write("URL is not correct. Message: {0}", e.Message);
                 Assert.Fail();
-
             }
         }
     }

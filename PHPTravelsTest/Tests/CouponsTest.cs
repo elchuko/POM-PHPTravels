@@ -41,9 +41,7 @@ namespace PHPTravelsTest
              //Execution
              DashBoard dashboard = new DashBoard(driver);
              Logger.Info("Go to CouponsPage");
-
              CouponsPage coupons = dashboard.goToCouponsPage();
-
              string CodeValue = coupons.AddCouponWithGenericCode(percentage);
              coupons.SearchCoupon(CodeValue);
 
@@ -59,6 +57,7 @@ namespace PHPTravelsTest
             Logger.Info("Test Case Name TC28_Coupons_RemovedCouponSuccessfully");
             string valuetodelete = ConfigurationManager.AppSettings["percentage"];
 
+            //Execution
             DashBoard dashboard = new DashBoard(driver);
             CouponsPage coupons = dashboard.goToCouponsPage();
             Logger.Info("SearchCoupon " + valuetodelete);
@@ -66,6 +65,8 @@ namespace PHPTravelsTest
             CouponsPageValidations.ValidateSearchField(coupons, driver, valuetodelete);
             Logger.Info("Delecte Coupon "+ valuetodelete);
             coupons.DeleteCoupon(valuetodelete);
+
+            //Validation
             CouponsPageValidations.ValidateDeletedCoupon(coupons, driver,valuetodelete);
 
             Thread.Sleep(1000);
@@ -78,6 +79,7 @@ namespace PHPTravelsTest
             string MaxUses = ConfigurationManager.AppSettings["MaxUses"];
             string Id = ConfigurationManager.AppSettings["id"];
 
+            //Execution
             DashBoard dashboard = new DashBoard(driver);
             CouponsPage coupons = dashboard.goToCouponsPage();
             Logger.Info("SearchCoupon "+Id);
@@ -85,9 +87,10 @@ namespace PHPTravelsTest
             CouponsPageValidations.ValidateSearchField(coupons, driver,Id);
             Logger.Info("EditCouponOnMaxUseValue "+MaxUses);
             coupons.EditCouponOnMaxUseValue(MaxUses);
-
             Logger.Info("SearchCoupon " +Id);
             coupons.SearchCoupon(Id);
+
+            //Validation
             CouponsPageValidations.ValidateCouponByMaxUses(coupons, driver, MaxUses);
             Thread.Sleep(1000);
 
@@ -99,10 +102,13 @@ namespace PHPTravelsTest
             Logger.Info("test Case name TC31_Coupon_SearchedCouponSuccessfully");
             string Value = ConfigurationManager.AppSettings["number"];
 
+            //Execution
             DashBoard dashboard = new DashBoard(driver);
             CouponsPage coupons = dashboard.goToCouponsPage();
             Logger.Info("SearchCoupon "+Value);
             coupons.SearchCoupon(Value);
+
+            //Validation
             Logger.Info("ValidateSearchField");
             CouponsPageValidations.ValidateSearchField(coupons, driver, Value);
             Thread.Sleep(1000);
@@ -116,10 +122,13 @@ namespace PHPTravelsTest
             string printpage = ConfigurationManager.AppSettings["printpage"];
             string mainpage = ConfigurationManager.AppSettings["mainpage"];
 
+            //Execution
             DashBoard dashboard = new DashBoard(driver);
             CouponsPage coupons = dashboard.goToCouponsPage();
             Logger.Info("OpenPrintWindow");
             ParentWindow = coupons.OpenPrintWindow();
+
+            //Validation
             Logger.Info("ValidateifURLisCorrect " + printpage);
             CouponsPageValidations.ValidateIfURLIsCorrect(driver, printpage);
             Logger.Info("ClosePrintWindow");
