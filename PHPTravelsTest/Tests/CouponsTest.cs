@@ -37,7 +37,8 @@ namespace PHPTravelsTest
          {
             Logger.Info("Test Case Name TC27_Coupons_AddedCouponSuccessfully");
              string percentage = ConfigurationManager.AppSettings["percentage"];
-
+             
+             //Execution
              DashBoard dashboard = new DashBoard(driver);
              Logger.Info("Go to CouponsPage");
 
@@ -45,6 +46,8 @@ namespace PHPTravelsTest
 
              string CodeValue = coupons.AddCouponWithGenericCode(percentage);
              coupons.SearchCoupon(CodeValue);
+
+             //Validation
              CouponsPageValidations.ValidateCouponbyPercentage(coupons, driver, percentage);
 
              Thread.Sleep(1000);

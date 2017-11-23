@@ -41,13 +41,15 @@ namespace PHPTravelsTest.Tests
             Logger.Info("Test Case Name TC02_Cars_AddedCarsSuccessfully");
             string carName = ConfigurationManager.AppSettings["carName"];
 
-           
+            //Execution
             DashBoard dashBoard = new DashBoard(driver);
             Logger.Info("Go to Cars Submenu");
             dashBoard.GoCarsSubMenu();
             CarsPage carsPage = new CarsPage(driver);
             Logger.Info("Add car by Name "+carName);
             carsPage.AddCar(carName);
+            
+            //validation
             Logger.Info("Validate Car created is the same");
             CarsValidations.ValidateAddedCar(carsPage,carName);
         }
